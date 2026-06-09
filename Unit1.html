@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit 1 - Hello Talking Book V2</title>
+
+<style>
+* { box-sizing: border-box; }
+
+:root {
+  --purple: #7e22ce;
+  --purple2: #a855f7;
+  --purple3: #e9d5ff;
+  --red: #dc2626;
+  --orange: #f97316;
+  --green: #16a34a;
+  --blue: #2563eb;
+  --cream: #fff8ee;
+  --soft: #faf5ff;
+  --text: #1f1235;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ede9fe, #fdf2f8);
+  color: var(--text);
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+  display: grid;
+  grid-template-rows: 70px 1fr 58px;
+  gap: 8px;
+}
+
+.topbar {
+  background: white;
+  border-radius: 18px;
+  padding: 8px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.brand {
+  font-weight: bold;
+  color: #6d28d9;
+  font-size: 22px;
+  white-space: nowrap;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.controls b {
+  font-size: 13px;
+  color: #4c1d95;
+}
+
+select {
+  padding: 7px 9px;
+  border: 1px solid #d8b4fe;
+  border-radius: 10px;
+  background: var(--soft);
+  max-width: 180px;
+}
+
+.tool-btn {
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.btn-purple { background: var(--purple); }
+.btn-blue { background: var(--blue); }
+.btn-orange { background: var(--orange); }
+.btn-green { background: var(--green); }
+.btn-gray { background: #64748b; }
+
+.stage {
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.book {
+  width: min(1420px, 100%);
+  height: 100%;
+  background: var(--cream);
+  border-radius: 26px;
+  padding: 16px;
+  box-shadow:
+    0 18px 42px rgba(88, 28, 135, 0.16),
+    inset 0 0 0 2px rgba(126, 34, 206, 0.08);
+  overflow: hidden;
+}
+
+.page-shell {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px #eee;
+  overflow: hidden;
+  position: relative;
+}
+
+.page-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.page-fit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.page-content {
+  width: 1180px;
+  height: 760px;
+  padding: 18px;
+  background: white;
+}
+
+.page-fit.flip .page-content {
+  animation: flipPage 0.3s ease;
+}
+
+@keyframes flipPage {
+  from {
+    opacity: 0;
+    transform: rotateY(-8deg) translateX(18px);
+    transform-origin: left center;
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0) translateX(0);
+    transform-origin: left center;
+  }
+}
+
+.page-title {
+  margin: 0 0 14px;
+  color: var(--purple);
+  font-size: 32px;
+  border-left: 10px solid var(--purple2);
+  padding-left: 14px;
+  line-height: 1.15;
+}
+
+.sub-title {
+  font-size: 18px;
+  color: #555;
+  margin: -6px 0 14px 24px;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top left, #f3e8ff, transparent 35%),
+    radial-gradient(circle at bottom right, #fce7f3, transparent 35%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 32px;
+}
+
+.unit-badge {
+  display: inline-block;
+  background: var(--purple);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.cover h1 {
+  font-size: 68px;
+  color: #dc2626;
+  margin: 0 0 14px;
+  line-height: 1.05;
+}
+
+.cover p {
+  font-size: 24px;
+  color: #444;
+  margin: 10px 0;
+}
+
+.cover-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.cover-pic {
+  background: white;
+  border: 2px solid var(--purple3);
+  border-radius: 22px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cover-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.big-speaker {
+  margin-top: 24px;
+  font-size: 22px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: none;
+  background: var(--purple);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(126,34,206,0.3);
+}
+
+.focus-grid {
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+}
+
+.focus-card {
+  border: 2px solid var(--purple3);
+  border-radius: 22px;
+  background: white;
+  padding: 20px;
+  min-height: 0;
+}
+
+.focus-card h3 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  color: var(--purple);
+}
+
+.focus-card p, .focus-card li {
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.focus-card ul {
+  margin: 8px 0 0;
+  padding-left: 24px;
+}
+
+.formula {
+  background: var(--soft);
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 24px;
+  line-height: 1.5;
+  border: 1px solid var(--purple3);
+}
+
+.vocab-grid {
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.vocab-card {
+  border: 2px solid var(--purple3);
+  background: white;
+  border-radius: 24px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 220px 1fr 60px;
+  gap: 18px;
+  align-items: center;
+  min-width: 0;
+  transition: 0.2s;
+}
+
+.pic-box {
+  width: 220px;
+  height: 170px;
+  background: var(--soft);
+  border-radius: 20px;
+  border: 1px solid #ede9fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pic-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+  display: block;
+}
+
+.word {
+  font-size: 34px;
+  font-weight: bold;
+  color: var(--red);
+  margin-bottom: 8px;
+  line-height: 1.05;
+  word-break: break-word;
+}
+
+.mean {
+  font-size: 22px;
+  color: #333;
+  line-height: 1.25;
+}
+
+.play {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: 2px solid var(--purple);
+  background: white;
+  color: var(--purple);
+  font-size: 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play:hover {
+  background: var(--purple);
+  color: white;
+}
+
+.sentence-layout {
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 18px;
+}
+
+.pattern-box {
+  background: var(--soft);
+  border: 2px solid var(--purple3);
+  border-radius: 22px;
+  padding: 22px;
+  font-size: 24px;
+  line-height: 1.65;
+}
+
+.sentence-list {
+  display: grid;
+  gap: 12px;
+}
+
+.sentence-card {
+  border: 2px solid var(--purple3);
+  border-radius: 18px;
+  background: white;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 120px 1fr 56px;
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+  transition: 0.2s;
+}
+
+.mini-pic {
+  width: 120px;
+  height: 92px;
+  border-radius: 16px;
+  background: var(--soft);
+  border: 1px solid #ede9fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mini-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  display: block;
+}
+
+.sentence-en {
+  font-size: 22px;
+  color: #111827;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.sentence-vi {
+  font-size: 17px;
+  color: #555;
+  margin-top: 4px;
+  line-height: 1.25;
+}
+
+.phonics-layout {
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.phonic-card {
+  background: white;
+  border: 2px solid var(--purple3);
+  border-radius: 22px;
+  padding: 22px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.sound-symbol {
+  font-size: 82px;
+  color: var(--red);
+  font-weight: bold;
+  line-height: 1;
+}
+
+.phonic-desc {
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.phonic-examples {
+  display: grid;
+  gap: 12px;
+  min-height: 0;
+}
+
+.phonic-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 56px;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid #f3e8ff;
+  border-radius: 16px;
+  padding: 10px;
+  min-width: 0;
+  transition: 0.2s;
+}
+
+.quiz-layout {
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.quiz-card {
+  background: #fff7ed;
+  border: 2px solid #fed7aa;
+  border-radius: 22px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  align-items: center;
+  min-width: 0;
+  transition: 0.2s;
+}
+
+.quiz-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #9a3412;
+  margin-bottom: 10px;
+}
+
+.quiz-text {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.answer {
+  display: none;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 12px;
+  color: var(--green);
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.orange-btn {
+  border: none;
+  background: var(--orange);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 8px;
+  font-size: 16px;
+}
+
+.active-card {
+  box-shadow: 0 0 0 5px rgba(126, 34, 206, 0.18);
+  border-color: var(--purple) !important;
+  transform: scale(1.015);
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav button {
+  border: none;
+  background: var(--purple);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 14px rgba(126,34,206,0.28);
+}
+
+.nav button:disabled {
+  background: #c4b5fd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.page-count {
+  background: white;
+  color: #6d28d9;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  font-size: 17px;
+}
+
+.missing-img {
+  width: 100%;
+  height: 100%;
+  color: var(--purple);
+  font-size: 14px;
+  text-align: center;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.3;
+}
+
+@media (max-width: 900px) {
+  .app { grid-template-rows: 82px 1fr 58px; }
+  .topbar { grid-template-columns: 1fr; }
+  .brand { font-size: 18px; }
+  .controls { justify-content: flex-start; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">📖 Unit 1: Hello</div>
+
+    <div class="controls">
+      <button class="tool-btn btn-blue" id="playPageBtn">▶ Phát trang</button>
+      <button class="tool-btn btn-green" id="autoBtn">⏯ Tự động đọc</button>
+      <button class="tool-btn btn-gray" id="stopBtn">■ Dừng</button>
+
+      <b>Giọng:</b>
+      <select id="voiceSelect"></select>
+
+      <b>Tốc độ:</b>
+      <select id="rateSelect">
+        <option value="0.7">Chậm</option>
+        <option value="0.85" selected>Vừa</option>
+        <option value="1">Bình thường</option>
+      </select>
+
+      <button class="tool-btn btn-purple" id="fullBtn">⛶ Toàn màn hình</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="book">
+      <div class="page-shell">
+        <div class="page-viewport" id="pageViewport">
+          <div class="page-fit" id="pageFit">
+            <div class="page-content" id="pageContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn">⬅ Trang trước</button>
+    <div class="page-count" id="pageCount"></div>
+    <button id="nextBtn">Trang sau ➡</button>
+  </div>
+
+</div>
+
+<script>
+const vocabulary = [
+  { key: "hello", en: "hello", vi: "xin chào", img: "images/hello.png" },
+  { key: "hi", en: "hi", vi: "chào (thân mật)", img: "images/hi.png" },
+  { key: "bye", en: "bye", vi: "tạm biệt", img: "images/bye.png" },
+  { key: "fine", en: "fine", vi: "tốt, khỏe", img: "images/fine.png" },
+  { key: "goodbye", en: "goodbye", vi: "tạm biệt (trang trọng)", img: "images/goodbye.png" },
+  { key: "thank-you", en: "thank you", vi: "cảm ơn bạn", img: "images/thank-you.png" }
+];
+
+let currentPage = 0;
+let voices = [];
+let readingToken = 0;
+
+const pageContent = document.getElementById("pageContent");
+const pageFit = document.getElementById("pageFit");
+const pageViewport = document.getElementById("pageViewport");
+const pageCount = document.getElementById("pageCount");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function getItem(key) {
+  return vocabulary.find(v => v.key === key);
+}
+
+function imageUrl(key) {
+  const item = getItem(key);
+  return item ? item.img : "";
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function playButton(text) {
+  return `<button class="play" data-speak="${escapeHtml(text)}">🔈</button>`;
+}
+
+function imageBox(key, className = "pic-box") {
+  const src = imageUrl(key);
+  return `
+    <div class="${className}">
+      <img 
+        src="${src}" 
+        alt="${key}" 
+        onerror="this.parentElement.innerHTML='<div class=&quot;missing-img&quot;>Thiếu ảnh:<br>${src}</div>';"
+      >
+    </div>
+  `;
+}
+
+function coverPage() {
+  return `
+    <div class="cover" data-auto-speak="Unit one. Hello.">
+      <div>
+        <div class="unit-badge">UNIT 1</div>
+        <h1>Hello</h1>
+        <p>Sách nói tương tác tiếng Anh</p>
+        <p>Chủ đề: Chào hỏi, hỏi thăm và tạm biệt</p>
+        <button class="big-speaker" data-speak="Unit one. Hello.">
+          🔈 Nghe tên bài
+        </button>
+      </div>
+
+      <div class="cover-gallery">
+        <div class="cover-pic"><img src="${imageUrl("hello")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("hi")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("bye")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("thank-you")}" alt=""></div>
+      </div>
+    </div>
+  `;
+}
+
+function focusPage() {
+  return `
+    <h2 class="page-title">Trọng tâm bài học</h2>
+    <div class="focus-grid">
+      <div class="focus-card" data-auto-speak="Vocabulary. Hello. Hi. Bye. Fine. Goodbye. Thank you.">
+        <h3>1. Vocabulary - Từ vựng</h3>
+        <p><b>Chủ đề:</b> chào hỏi và tạm biệt.</p>
+        <ul>
+          <li>hello, hi</li>
+          <li>bye, goodbye</li>
+          <li>fine</li>
+          <li>thank you</li>
+        </ul>
+      </div>
+
+      <div class="focus-card" data-auto-speak="Hello. Hi. How are you? I'm fine, thank you.">
+        <h3>2. Chào hỏi và hỏi thăm</h3>
+        <div class="formula">
+          <b>Hello. / Hi.</b><br>
+          Xin chào.<br><br>
+          <b>How are you?</b><br>
+          I’m fine, thank you.
+        </div>
+      </div>
+
+      <div class="focus-card" data-auto-speak="Goodbye. Bye.">
+        <h3>3. Tạm biệt</h3>
+        <div class="formula">
+          <b>Goodbye. / Bye.</b><br>
+          Tạm biệt.
+        </div>
+      </div>
+
+      <div class="focus-card" data-auto-speak="Thank you. You're welcome.">
+        <h3>4. Cảm ơn</h3>
+        <div class="formula">
+          <b>Thank you.</b><br>
+          Cảm ơn bạn.<br><br>
+          <b>You’re welcome.</b><br>
+          Không có gì.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function vocabPage(start, end, title) {
+  const items = vocabulary.slice(start, end);
+
+  return `
+    <h2 class="page-title">${title}</h2>
+    <p class="sub-title">Bấm loa để nghe từng từ, hoặc bấm “Phát trang” để nghe toàn bộ.</p>
+    <div class="vocab-grid">
+      ${items.map(item => `
+        <div class="vocab-card" data-auto-speak="${escapeHtml(item.en)}">
+          ${imageBox(item.key)}
+          <div>
+            <div class="word">${item.en}</div>
+            <div class="mean">${item.vi}</div>
+          </div>
+          ${playButton(item.en)}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function sentencePage1() {
+  const items = [
+    { en: "Hello.", vi: "Xin chào.", pic: "hello" },
+    { en: "Hi.", vi: "Chào.", pic: "hi" },
+    { en: "How are you?", vi: "Bạn khỏe không?", pic: "hello" },
+    { en: "I'm fine, thank you.", vi: "Tôi khỏe, cảm ơn bạn.", pic: "fine" }
+  ];
+
+  return `
+    <h2 class="page-title">Sentence Patterns 1 - Greetings and Asking</h2>
+    <div class="sentence-layout">
+      <div class="pattern-box" data-auto-speak="Hello. Hi. How are you? I'm fine, thank you.">
+        <b>Mẫu câu:</b><br><br>
+
+        <b>Hello. / Hi.</b><br>
+        Xin chào.<br><br>
+
+        <b>How are you?</b><br>
+        Bạn khỏe không?<br><br>
+
+        <b>I’m fine, thank you.</b><br>
+        Tôi khỏe, cảm ơn bạn.
+      </div>
+
+      <div class="sentence-list">
+        ${items.map(item => `
+          <div class="sentence-card" data-auto-speak="${escapeHtml(item.en)}">
+            ${imageBox(item.pic, "mini-pic")}
+            <div>
+              <div class="sentence-en">${item.en}</div>
+              <div class="sentence-vi">${item.vi}</div>
+            </div>
+            ${playButton(item.en)}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function sentencePage2() {
+  const items = [
+    { en: "Goodbye.", vi: "Tạm biệt.", pic: "goodbye" },
+    { en: "Bye.", vi: "Tạm biệt.", pic: "bye" },
+    { en: "Thank you.", vi: "Cảm ơn bạn.", pic: "thank-you" },
+    { en: "You're welcome.", vi: "Không có gì.", pic: "thank-you" }
+  ];
+
+  return `
+    <h2 class="page-title">Sentence Patterns 2 - Goodbye and Thank You</h2>
+    <div class="sentence-layout">
+      <div class="pattern-box" data-auto-speak="Goodbye. Bye. Thank you. You're welcome.">
+        <b>Mẫu câu:</b><br><br>
+
+        <b>Goodbye. / Bye.</b><br>
+        Tạm biệt.<br><br>
+
+        <b>Thank you.</b><br>
+        Cảm ơn bạn.<br><br>
+
+        <b>You’re welcome.</b><br>
+        Không có gì.
+      </div>
+
+      <div class="sentence-list">
+        ${items.map(item => `
+          <div class="sentence-card" data-auto-speak="${escapeHtml(item.en)}">
+            ${imageBox(item.pic, "mini-pic")}
+            <div>
+              <div class="sentence-en">${item.en}</div>
+              <div class="sentence-vi">${item.vi}</div>
+            </div>
+            ${playButton(item.en)}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function phonicsPage() {
+  return `
+    <h2 class="page-title">Phonics - Âm /h/ và /f/</h2>
+    <div class="phonics-layout">
+      <div class="phonic-card">
+        <div class="sound-symbol">/h/</div>
+        <div class="phonic-desc">
+          Âm /h/: hơi nhẹ đi ra từ cổ họng. Ví dụ: hello, hi, how.
+        </div>
+
+        <div class="phonic-examples">
+          <div class="phonic-row" data-auto-speak="hello">
+            ${imageBox("hello", "mini-pic")}
+            <div class="sentence-en">hello</div>
+            ${playButton("hello")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="hi">
+            ${imageBox("hi", "mini-pic")}
+            <div class="sentence-en">hi</div>
+            ${playButton("hi")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="Hello. Hi.">
+            ${imageBox("hello", "mini-pic")}
+            <div>
+              <div class="sentence-en">Hello. Hi.</div>
+              <div class="sentence-vi">Xin chào. Chào.</div>
+            </div>
+            ${playButton("Hello. Hi.")}
+          </div>
+        </div>
+      </div>
+
+      <div class="phonic-card">
+        <div class="sound-symbol">/f/</div>
+        <div class="phonic-desc">
+          Âm /f/: răng trên chạm nhẹ môi dưới. Ví dụ: fine.
+        </div>
+
+        <div class="phonic-examples">
+          <div class="phonic-row" data-auto-speak="fine">
+            ${imageBox("fine", "mini-pic")}
+            <div class="sentence-en">fine</div>
+            ${playButton("fine")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="friend">
+            ${imageBox("fine", "mini-pic")}
+            <div class="sentence-en">friend</div>
+            ${playButton("friend")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="I'm fine.">
+            ${imageBox("fine", "mini-pic")}
+            <div>
+              <div class="sentence-en">I'm fine.</div>
+              <div class="sentence-vi">Tôi khỏe.</div>
+            </div>
+            ${playButton("I'm fine.")}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function quizPage() {
+  return `
+    <h2 class="page-title">Mini Game - Nghe và trả lời</h2>
+    <div class="quiz-layout">
+      <div class="quiz-card" data-auto-speak="What do you say when you meet a friend?">
+        ${imageBox("hello", "pic-box")}
+        <div>
+          <div class="quiz-title">Câu 1</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("What do you say when you meet a friend?")}
+          <button class="orange-btn" data-answer="answer1">Đáp án</button>
+          <div class="answer" id="answer1">Hello. / Hi.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="How are you?">
+        ${imageBox("fine", "pic-box")}
+        <div>
+          <div class="quiz-title">Câu 2</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("How are you?")}
+          <button class="orange-btn" data-answer="answer2">Đáp án</button>
+          <div class="answer" id="answer2">I'm fine, thank you.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="What do you say when you leave?">
+        ${imageBox("goodbye", "pic-box")}
+        <div>
+          <div class="quiz-title">Câu 3</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("What do you say when you leave?")}
+          <button class="orange-btn" data-answer="answer3">Đáp án</button>
+          <div class="answer" id="answer3">Goodbye. / Bye.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="What do you say when someone helps you?">
+        ${imageBox("thank-you", "pic-box")}
+        <div>
+          <div class="quiz-title">Câu 4</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("What do you say when someone helps you?")}
+          <button class="orange-btn" data-answer="answer4">Đáp án</button>
+          <div class="answer" id="answer4">Thank you.</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+const pages = [
+  coverPage,
+  focusPage,
+  () => vocabPage(0, 4, "Vocabulary 1 - Từ vựng phần 1"),
+  () => vocabPage(4, 6, "Vocabulary 2 - Từ vựng phần 2"),
+  sentencePage1,
+  sentencePage2,
+  phonicsPage,
+  quizPage
+];
+
+function fitPage() {
+  const vw = pageViewport.clientWidth;
+  const vh = pageViewport.clientHeight;
+  const cw = pageContent.offsetWidth;
+  const ch = pageContent.offsetHeight;
+  const scale = Math.min(vw / cw, vh / ch);
+  pageFit.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+
+function renderPage() {
+  stopReading();
+
+  pageContent.innerHTML = pages[currentPage]();
+
+  pageFit.classList.remove("flip");
+  void pageFit.offsetWidth;
+  pageFit.classList.add("flip");
+
+  pageCount.textContent = `Trang ${currentPage + 1} / ${pages.length}`;
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = currentPage === pages.length - 1;
+
+  bindPageButtons();
+  fitPage();
+
+  pageContent.querySelectorAll("img").forEach(img => {
+    img.addEventListener("load", fitPage, { once: true });
+    img.addEventListener("error", fitPage, { once: true });
+  });
+}
+
+function bindPageButtons() {
+  document.querySelectorAll("[data-speak]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      stopReading();
+      speakNow(btn.dataset.speak);
+    });
+  });
+
+  document.querySelectorAll("[data-answer]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.answer;
+      const answer = document.getElementById(id);
+      if (answer) {
+        answer.style.display = answer.style.display === "block" ? "none" : "block";
+        fitPage();
+      }
+    });
+  });
+}
+
+function getAutoItems() {
+  return Array.from(pageContent.querySelectorAll("[data-auto-speak]"))
+    .map(el => ({
+      el,
+      text: el.dataset.autoSpeak
+    }))
+    .filter(item => item.text && item.text.trim().length > 0);
+}
+
+function clearActive() {
+  pageContent.querySelectorAll(".active-card").forEach(el => {
+    el.classList.remove("active-card");
+  });
+}
+
+function stopReading() {
+  readingToken++;
+  clearActive();
+  speechSynthesis.cancel();
+}
+
+function speakNow(text) {
+  const utterance = createUtterance(text);
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+function speakAsync(text, el, token) {
+  return new Promise(resolve => {
+    if (token !== readingToken) return resolve();
+
+    clearActive();
+    if (el) el.classList.add("active-card");
+
+    const utterance = createUtterance(text);
+
+    utterance.onend = () => {
+      if (el) el.classList.remove("active-card");
+      setTimeout(resolve, 260);
+    };
+
+    utterance.onerror = () => {
+      if (el) el.classList.remove("active-card");
+      resolve();
+    };
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
+  });
+}
+
+function createUtterance(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  const voiceSelect = document.getElementById("voiceSelect");
+  const rateSelect = document.getElementById("rateSelect");
+  const selectedVoice = voices[voiceSelect.value];
+
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice.lang;
+  } else {
+    utterance.lang = "en-US";
+  }
+
+  utterance.rate = Number(rateSelect.value || 0.85);
+  utterance.pitch = 1;
+  return utterance;
+}
+
+async function playCurrentPage() {
+  stopReading();
+  const token = readingToken;
+
+  const items = getAutoItems();
+
+  for (const item of items) {
+    if (token !== readingToken) break;
+    await speakAsync(item.text, item.el, token);
+  }
+
+  clearActive();
+}
+
+async function autoReadFromCurrentPage() {
+  stopReading();
+  const token = readingToken;
+
+  while (currentPage < pages.length && token === readingToken) {
+    const items = getAutoItems();
+
+    for (const item of items) {
+      if (token !== readingToken) break;
+      await speakAsync(item.text, item.el, token);
+    }
+
+    if (token !== readingToken) break;
+
+    if (currentPage < pages.length - 1) {
+      currentPage++;
+      pageContent.innerHTML = pages[currentPage]();
+      pageCount.textContent = `Trang ${currentPage + 1} / ${pages.length}`;
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === pages.length - 1;
+      bindPageButtons();
+      fitPage();
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } else {
+      break;
+    }
+  }
+
+  clearActive();
+}
+
+prevBtn.addEventListener("click", () => {
+  if (currentPage > 0) {
+    currentPage--;
+    renderPage();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (currentPage < pages.length - 1) {
+    currentPage++;
+    renderPage();
+  }
+});
+
+document.getElementById("playPageBtn").addEventListener("click", playCurrentPage);
+document.getElementById("autoBtn").addEventListener("click", autoReadFromCurrentPage);
+document.getElementById("stopBtn").addEventListener("click", stopReading);
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") nextBtn.click();
+  if (e.key === "ArrowLeft") prevBtn.click();
+  if (e.key === "Escape") stopReading();
+});
+
+document.getElementById("fullBtn").addEventListener("click", async () => {
+  if (!document.fullscreenElement) {
+    await document.documentElement.requestFullscreen();
+  } else {
+    await document.exitFullscreen();
+  }
+  setTimeout(fitPage, 200);
+});
+
+window.addEventListener("resize", fitPage);
+document.addEventListener("fullscreenchange", () => setTimeout(fitPage, 200));
+
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+
+  const voiceSelect = document.getElementById("voiceSelect");
+  voiceSelect.innerHTML = "";
+
+  const englishVoices = voices.filter(v => v.lang.toLowerCase().startsWith("en"));
+  const list = englishVoices.length ? englishVoices : voices;
+
+  list.forEach(voice => {
+    const option = document.createElement("option");
+    option.value = voices.indexOf(voice);
+    option.textContent = `${voice.name} - ${voice.lang}`;
+    voiceSelect.appendChild(option);
+  });
+
+  const usVoice = voices.findIndex(v => v.lang.toLowerCase().includes("en-us"));
+  if (usVoice !== -1) {
+    voiceSelect.value = usVoice;
+  }
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+setTimeout(loadVoices, 500);
+
+renderPage();
+</script>
+</body>
+</html>
