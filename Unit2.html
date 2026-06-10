@@ -1,1 +1,1155 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Unit 2 - Our names - Talking Book V2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+html,body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#ede9fe,#fdf2f8);
+  color:#1f1235;
+}
+.app{
+  width:100vw;
+  height:100vh;
+  padding:10px;
+  display:grid;
+  grid-template-rows:70px 1fr 58px;
+  gap:8px;
+}
+.topbar{
+  background:#fff;
+  border-radius:18px;
+  padding:8px 14px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+}
+.brand{
+  font-weight:bold;
+  color:#6d28d9;
+  font-size:22px;
+  white-space:nowrap;
+}
+.controls{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.controls b{
+  font-size:13px;
+  color:#4c1d95;
+}
+select{
+  padding:7px 9px;
+  border:1px solid #d8b4fe;
+  border-radius:10px;
+  background:#faf5ff;
+  max-width:190px;
+}
+.tool-btn{
+  border:none;
+  color:white;
+  padding:8px 12px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+  white-space:nowrap;
+}
+.btn-purple{background:#7e22ce}
+.btn-blue{background:#2563eb}
+.btn-orange{background:#f97316}
+.btn-green{background:#16a34a}
+.btn-gray{background:#64748b}
+
+.stage{
+  min-height:0;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+}
+.book{
+  width:min(1420px,100%);
+  height:100%;
+  background:#fff8ee;
+  border-radius:26px;
+  padding:16px;
+  box-shadow:0 18px 42px rgba(88,28,135,.16),inset 0 0 0 2px rgba(126,34,206,.08);
+  overflow:hidden;
+}
+.page-shell{
+  width:100%;
+  height:100%;
+  background:white;
+  border-radius:20px;
+  box-shadow:inset 0 0 0 1px #eee;
+  overflow:hidden;
+  position:relative;
+}
+.page-viewport{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  position:relative;
+}
+.page-fit{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:1180px;
+  height:760px;
+  transform-origin:center center;
+}
+.page-content{
+  width:1180px;
+  height:760px;
+  padding:18px;
+  background:white;
+}
+.page-fit.flip .page-content{
+  animation:flipPage .3s ease;
+}
+@keyframes flipPage{
+  from{opacity:0;transform:rotateY(-8deg) translateX(18px);transform-origin:left center}
+  to{opacity:1;transform:rotateY(0) translateX(0);transform-origin:left center}
+}
+.page-title{
+  margin:0 0 14px;
+  color:#7e22ce;
+  font-size:32px;
+  border-left:10px solid #a855f7;
+  padding-left:14px;
+  line-height:1.15;
+}
+.sub-title{
+  font-size:18px;
+  color:#555;
+  margin:-6px 0 14px 24px;
+}
+.cover{
+  width:100%;
+  height:100%;
+  border-radius:20px;
+  background:radial-gradient(circle at top left,#f3e8ff,transparent 35%),radial-gradient(circle at bottom right,#fce7f3,transparent 35%);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  align-items:center;
+  padding:32px;
+}
+.unit-badge{
+  display:inline-block;
+  background:#7e22ce;
+  color:white;
+  padding:10px 24px;
+  border-radius:999px;
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+.cover h1{
+  font-size:68px;
+  color:#dc2626;
+  margin:0 0 14px;
+  line-height:1.05;
+}
+.cover p{
+  font-size:24px;
+  color:#444;
+  margin:10px 0;
+}
+.cover-gallery{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+.cover-pic{
+  background:white;
+  border:2px solid #e9d5ff;
+  border-radius:22px;
+  height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.cover-pic img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:10px;
+}
+.big-speaker{
+  margin-top:24px;
+  font-size:22px;
+  padding:14px 26px;
+  border-radius:999px;
+  border:none;
+  background:#7e22ce;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(126,34,206,.3);
+}
+.focus-grid{
+  height:calc(100% - 58px);
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  grid-template-rows:1fr 1fr;
+  gap:18px;
+}
+.focus-card{
+  border:2px solid #e9d5ff;
+  border-radius:22px;
+  background:white;
+  padding:20px;
+  min-height:0;
+}
+.focus-card h3{
+  margin:0 0 12px;
+  font-size:26px;
+  color:#7e22ce;
+}
+.focus-card p,.focus-card li{
+  font-size:22px;
+  line-height:1.45;
+}
+.focus-card ul{
+  margin:8px 0 0;
+  padding-left:24px;
+}
+.formula{
+  background:#faf5ff;
+  border-radius:16px;
+  padding:12px 16px;
+  font-size:24px;
+  line-height:1.5;
+  border:1px solid #e9d5ff;
+}
+.vocab-grid{
+  height:calc(100% - 58px);
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:18px;
+}
+.vocab-card{
+  border:2px solid #e9d5ff;
+  background:white;
+  border-radius:24px;
+  padding:18px;
+  display:grid;
+  grid-template-columns:220px 1fr 60px;
+  gap:18px;
+  align-items:center;
+  min-width:0;
+  transition:.2s;
+}
+.pic-box{
+  width:220px;
+  height:170px;
+  background:#faf5ff;
+  border-radius:20px;
+  border:1px solid #ede9fe;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.pic-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:8px;
+  display:block;
+}
+.word{
+  font-size:34px;
+  font-weight:bold;
+  color:#dc2626;
+  margin-bottom:8px;
+  line-height:1.05;
+  word-break:break-word;
+}
+.mean{
+  font-size:22px;
+  color:#333;
+  line-height:1.25;
+}
+.phonetic{
+  font-size:18px;
+  color:#6b7280;
+  margin-bottom:5px;
+}
+.play{
+  width:54px;
+  height:54px;
+  border-radius:16px;
+  border:2px solid #7e22ce;
+  background:white;
+  color:#7e22ce;
+  font-size:24px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.play:hover{
+  background:#7e22ce;
+  color:white;
+}
+.sentence-layout{
+  height:calc(100% - 58px);
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:18px;
+}
+.pattern-box{
+  background:#faf5ff;
+  border:2px solid #e9d5ff;
+  border-radius:22px;
+  padding:22px;
+  font-size:24px;
+  line-height:1.65;
+}
+.sentence-list{
+  display:grid;
+  gap:12px;
+}
+.sentence-card{
+  border:2px solid #e9d5ff;
+  border-radius:18px;
+  background:white;
+  padding:12px;
+  display:grid;
+  grid-template-columns:150px 1fr 56px;
+  gap:14px;
+  align-items:center;
+  min-width:0;
+  transition:.2s;
+}
+.mini-pic{
+  width:150px;
+  height:98px;
+  border-radius:16px;
+  background:#faf5ff;
+  border:1px solid #ede9fe;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.mini-pic img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:5px;
+  display:block;
+}
+.sentence-en{
+  font-size:22px;
+  color:#111827;
+  font-weight:bold;
+  line-height:1.2;
+}
+.sentence-vi{
+  font-size:17px;
+  color:#555;
+  margin-top:4px;
+  line-height:1.25;
+}
+.phonics-layout{
+  height:calc(100% - 58px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.phonic-card{
+  background:white;
+  border:2px solid #e9d5ff;
+  border-radius:22px;
+  padding:22px;
+  display:grid;
+  grid-template-rows:auto auto 1fr;
+  gap:14px;
+  min-width:0;
+  min-height:0;
+}
+.sound-symbol{
+  font-size:82px;
+  color:#dc2626;
+  font-weight:bold;
+  line-height:1;
+}
+.phonic-desc{
+  font-size:21px;
+  line-height:1.35;
+}
+.phonic-examples{
+  display:grid;
+  gap:12px;
+  min-height:0;
+}
+.phonic-row{
+  display:grid;
+  grid-template-columns:130px 1fr 56px;
+  gap:12px;
+  align-items:center;
+  border:1px solid #f3e8ff;
+  border-radius:16px;
+  padding:10px;
+  min-width:0;
+  transition:.2s;
+}
+.quiz-layout{
+  height:calc(100% - 58px);
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:18px;
+}
+.quiz-card{
+  background:#fff7ed;
+  border:2px solid #fed7aa;
+  border-radius:22px;
+  padding:16px;
+  display:grid;
+  grid-template-columns:210px 1fr;
+  gap:16px;
+  align-items:center;
+  min-width:0;
+  transition:.2s;
+}
+.quiz-title{
+  font-size:24px;
+  font-weight:bold;
+  color:#9a3412;
+  margin-bottom:10px;
+}
+.quiz-text{
+  font-size:20px;
+  color:#333;
+  margin-bottom:8px;
+}
+.answer{
+  display:none;
+  margin-top:10px;
+  padding:8px 12px;
+  background:white;
+  border-radius:12px;
+  color:#16a34a;
+  font-size:20px;
+  font-weight:bold;
+  line-height:1.2;
+}
+.orange-btn{
+  border:none;
+  background:#f97316;
+  color:white;
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-left:8px;
+  font-size:16px;
+}
+.active-card{
+  box-shadow:0 0 0 5px rgba(126,34,206,.18);
+  border-color:#7e22ce!important;
+  transform:scale(1.015);
+}
+.nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+}
+.nav button{
+  border:none;
+  background:#7e22ce;
+  color:white;
+  padding:12px 24px;
+  border-radius:999px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 14px rgba(126,34,206,.28);
+}
+.nav button:disabled{
+  background:#c4b5fd;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+.page-count{
+  background:white;
+  color:#6d28d9;
+  padding:10px 20px;
+  border-radius:999px;
+  font-weight:bold;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+  font-size:17px;
+}
+.missing-img{
+  width:100%;
+  height:100%;
+  color:#7e22ce;
+  font-size:14px;
+  text-align:center;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1.3;
+}
+@media(max-width:900px){
+  .app{grid-template-rows:82px 1fr 58px}
+  .topbar{grid-template-columns:1fr}
+  .brand{font-size:18px}
+  .controls{justify-content:flex-start}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">📖 Unit 2: Our names</div>
+    <div class="controls">
+      <button class="tool-btn btn-blue" id="playPageBtn">▶ Phát trang</button>
+      <button class="tool-btn btn-green" id="autoBtn">⏯ Tự động đọc</button>
+      <button class="tool-btn btn-gray" id="stopBtn">■ Dừng</button>
+
+      <b>Giọng:</b>
+      <select id="voiceSelect"></select>
+
+      <b>Tốc độ:</b>
+      <select id="rateSelect">
+        <option value="0.7">Chậm</option>
+        <option value="0.85" selected>Vừa</option>
+        <option value="1">Bình thường</option>
+      </select>
+
+      <button class="tool-btn btn-purple" id="fullBtn">⛶ Toàn màn hình</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="book">
+      <div class="page-shell">
+        <div class="page-viewport" id="pageViewport">
+          <div class="page-fit" id="pageFit">
+            <div class="page-content" id="pageContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn">⬅ Trang trước</button>
+    <div class="page-count" id="pageCount"></div>
+    <button id="nextBtn">Trang sau ➡</button>
+  </div>
+</div>
+
+<script>
+const vocabulary = [
+  { key:"name", en:"name", phonetic:"/neɪm/", type:"n.", vi:"tên", img:"images/name.png" },
+  { key:"my", en:"my", phonetic:"/maɪ/", type:"adj.", vi:"của tôi", img:"images/my.png" },
+  { key:"your", en:"your", phonetic:"/jɔːr/", type:"adj.", vi:"của bạn, của anh/chị", img:"images/your.png" },
+  { key:"how", en:"how", phonetic:"/haʊ/", type:"adv.", vi:"như thế nào", img:"images/how.png" },
+  { key:"old", en:"old", phonetic:"/əʊld/", type:"adj.", vi:"cũ, già", img:"images/old.png" },
+  { key:"what", en:"what", phonetic:"/wɒt/", type:"pron.", vi:"gì, cái gì", img:"images/what.png" },
+  { key:"i", en:"I", phonetic:"/aɪ/", type:"pron.", vi:"tôi", img:"images/i.png" },
+  { key:"am", en:"am", phonetic:"/æm/", type:"v.", vi:"là", img:"images/am.png" }
+];
+
+const images = {
+  "name":"images/name.png",
+  "my":"images/my.png",
+  "your":"images/your.png",
+  "how":"images/how.png",
+  "old":"images/old.png",
+  "what":"images/what.png",
+  "i":"images/i.png",
+  "am":"images/am.png",
+
+  "whats-your-name":"images/whats-your-name.png",
+  "my-name-nam":"images/my-name-nam.png",
+  "my-name-mary":"images/my-name-mary.png",
+  "how-old-are-you":"images/how-old-are-you.png",
+  "im-nine-years-old":"images/im-nine-years-old.png",
+  "im-eight-years-old":"images/im-eight-years-old.png",
+  "how-are-you":"images/how-are-you.png",
+  "im-fine-thank-you":"images/im-fine-thank-you.png"
+};
+
+let currentPage = 0;
+let voices = [];
+let readingToken = 0;
+
+const pageContent = document.getElementById("pageContent");
+const pageFit = document.getElementById("pageFit");
+const pageViewport = document.getElementById("pageViewport");
+const pageCount = document.getElementById("pageCount");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function imageUrl(key){
+  return images[key] || "";
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+
+function playButton(text){
+  return `<button class="play" data-speak="${escapeHtml(text)}">🔈</button>`;
+}
+
+function imageBox(key,className="pic-box"){
+  return `
+    <div class="${className}">
+      <img src="${imageUrl(key)}" alt="${key}">
+    </div>
+  `;
+}
+
+function coverPage(){
+  return `
+    <div class="cover" data-auto-speak="Unit two. Our names.">
+      <div>
+        <div class="unit-badge">UNIT 2</div>
+        <h1>Our names</h1>
+        <p>Sách nói tương tác tiếng Anh</p>
+        <p>Chủ đề: Hỏi tên, giới thiệu tên, hỏi tuổi và hỏi thăm sức khỏe</p>
+        <button class="big-speaker" data-speak="Unit two. Our names.">🔈 Nghe tên bài</button>
+      </div>
+
+      <div class="cover-gallery">
+        <div class="cover-pic"><img src="${imageUrl("whats-your-name")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("my-name-nam")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("how-old-are-you")}" alt=""></div>
+        <div class="cover-pic"><img src="${imageUrl("how-are-you")}" alt=""></div>
+      </div>
+    </div>
+  `;
+}
+
+function focusPage(){
+  return `
+    <h2 class="page-title">Trọng tâm bài học</h2>
+    <div class="focus-grid">
+      <div class="focus-card" data-auto-speak="Vocabulary. name. my. your. how. old. what. I. am.">
+        <h3>1. Vocabulary - Từ vựng</h3>
+        <p><b>Chủ đề:</b> hỏi tên, giới thiệu tên, hỏi tuổi.</p>
+        <ul>
+          <li>name, my, your</li>
+          <li>how, old, what</li>
+          <li>I, am</li>
+        </ul>
+      </div>
+
+      <div class="focus-card" data-auto-speak="What's your name? My name's Nam.">
+        <h3>2. Hỏi và giới thiệu tên</h3>
+        <div class="formula">
+          <b>What’s your name?</b><br>
+          Bạn tên là gì?<br><br>
+          <b>My name’s ...</b><br>
+          Tên tôi là ...
+        </div>
+      </div>
+
+      <div class="focus-card" data-auto-speak="How old are you? I'm nine years old.">
+        <h3>3. Hỏi và nói tuổi</h3>
+        <div class="formula">
+          <b>How old are you?</b><br>
+          Bạn bao nhiêu tuổi?<br><br>
+          <b>I’m ... years old.</b><br>
+          Tôi ... tuổi.
+        </div>
+      </div>
+
+      <div class="focus-card" data-auto-speak="How are you? I'm fine, thank you.">
+        <h3>4. Hỏi thăm sức khỏe</h3>
+        <div class="formula">
+          <b>How are you?</b><br>
+          Bạn khỏe không?<br><br>
+          <b>I’m fine, thank you.</b><br>
+          Tôi khỏe, cảm ơn bạn.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function vocabPage(start,end,title){
+  const items = vocabulary.slice(start,end);
+  return `
+    <h2 class="page-title">${title}</h2>
+    <p class="sub-title">Mỗi trang Vocabulary chỉ có 4 từ.</p>
+    <div class="vocab-grid">
+      ${items.map(item => `
+        <div class="vocab-card" data-auto-speak="${escapeHtml(item.en)}">
+          ${imageBox(item.key)}
+          <div>
+            <div class="word">${item.en}</div>
+            <div class="phonetic">${item.phonetic} - ${item.type}</div>
+            <div class="mean">${item.vi}</div>
+          </div>
+          ${playButton(item.en)}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function sentencePage1(){
+  const items = [
+    { en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", pic:"whats-your-name" },
+    { en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", pic:"my-name-nam" },
+    { en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên tôi là Mary.", pic:"my-name-mary" },
+    { en:"How old are you?", speak:"How old are you?", vi:"Bạn bao nhiêu tuổi?", pic:"how-old-are-you" }
+  ];
+
+  return `
+    <h2 class="page-title">Sentence Patterns 1 - Name</h2>
+    <div class="sentence-layout">
+      <div class="pattern-box" data-auto-speak="What's your name? My name's Nam. My name's Mary. How old are you?">
+        <b>Mẫu câu:</b><br><br>
+
+        <b>What’s your name?</b><br>
+        Bạn tên là gì?<br><br>
+
+        <b>My name’s ...</b><br>
+        Tên tôi là ...<br><br>
+
+        <b>How old are you?</b><br>
+        Bạn bao nhiêu tuổi?
+      </div>
+
+      <div class="sentence-list">
+        ${items.map(item => `
+          <div class="sentence-card" data-auto-speak="${escapeHtml(item.speak)}">
+            ${imageBox(item.pic,"mini-pic")}
+            <div>
+              <div class="sentence-en">${item.en}</div>
+              <div class="sentence-vi">${item.vi}</div>
+            </div>
+            ${playButton(item.speak)}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function sentencePage2(){
+  const items = [
+    { en:"I’m nine years old.", speak:"I'm nine years old.", vi:"Tôi chín tuổi.", pic:"im-nine-years-old" },
+    { en:"I’m eight years old.", speak:"I'm eight years old.", vi:"Tôi tám tuổi.", pic:"im-eight-years-old" },
+    { en:"How are you?", speak:"How are you?", vi:"Bạn khỏe không?", pic:"how-are-you" },
+    { en:"I’m fine, thank you.", speak:"I'm fine, thank you.", vi:"Tôi khỏe, cảm ơn bạn.", pic:"im-fine-thank-you" }
+  ];
+
+  return `
+    <h2 class="page-title">Sentence Patterns 2 - Age and Health</h2>
+    <div class="sentence-layout">
+      <div class="pattern-box" data-auto-speak="I'm nine years old. I'm eight years old. How are you? I'm fine, thank you.">
+        <b>Mẫu câu:</b><br><br>
+
+        <b>I’m ... years old.</b><br>
+        Tôi ... tuổi.<br><br>
+
+        <b>How are you?</b><br>
+        Bạn khỏe không?<br><br>
+
+        <b>I’m fine, thank you.</b><br>
+        Tôi khỏe, cảm ơn bạn.
+      </div>
+
+      <div class="sentence-list">
+        ${items.map(item => `
+          <div class="sentence-card" data-auto-speak="${escapeHtml(item.speak)}">
+            ${imageBox(item.pic,"mini-pic")}
+            <div>
+              <div class="sentence-en">${item.en}</div>
+              <div class="sentence-vi">${item.vi}</div>
+            </div>
+            ${playButton(item.speak)}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function phonicsPage(){
+  return `
+    <h2 class="page-title">Phonics - Âm /eɪ/ và /aɪ/</h2>
+    <div class="phonics-layout">
+      <div class="phonic-card">
+        <div class="sound-symbol">/eɪ/</div>
+        <div class="phonic-desc">
+          Âm /eɪ/: âm đôi, thường nghe trong từ <b>name</b>.
+        </div>
+
+        <div class="phonic-examples">
+          <div class="phonic-row" data-auto-speak="name">
+            ${imageBox("name","mini-pic")}
+            <div class="sentence-en">name</div>
+            ${playButton("name")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="My name is Nam.">
+            ${imageBox("my-name-nam","mini-pic")}
+            <div>
+              <div class="sentence-en">My name is Nam.</div>
+              <div class="sentence-vi">Tên tôi là Nam.</div>
+            </div>
+            ${playButton("My name is Nam.")}
+          </div>
+        </div>
+      </div>
+
+      <div class="phonic-card">
+        <div class="sound-symbol">/aɪ/</div>
+        <div class="phonic-desc">
+          Âm /aɪ/: âm đôi, thường gặp trong từ <b>my</b> và <b>I</b>.
+        </div>
+
+        <div class="phonic-examples">
+          <div class="phonic-row" data-auto-speak="my">
+            ${imageBox("my","mini-pic")}
+            <div class="sentence-en">my</div>
+            ${playButton("my")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="I">
+            ${imageBox("i","mini-pic")}
+            <div class="sentence-en">I</div>
+            ${playButton("I")}
+          </div>
+
+          <div class="phonic-row" data-auto-speak="I am eight years old.">
+            ${imageBox("im-eight-years-old","mini-pic")}
+            <div>
+              <div class="sentence-en">I am eight years old.</div>
+              <div class="sentence-vi">Tôi tám tuổi.</div>
+            </div>
+            ${playButton("I am eight years old.")}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function quizPage(){
+  return `
+    <h2 class="page-title">Mini Game - Nghe và trả lời</h2>
+    <div class="quiz-layout">
+      <div class="quiz-card" data-auto-speak="What's your name?">
+        ${imageBox("whats-your-name","pic-box")}
+        <div>
+          <div class="quiz-title">Câu 1</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("What's your name?")}
+          <button class="orange-btn" data-answer="answer1">Đáp án</button>
+          <div class="answer" id="answer1">My name’s Nam.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="How old are you?">
+        ${imageBox("how-old-are-you","pic-box")}
+        <div>
+          <div class="quiz-title">Câu 2</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("How old are you?")}
+          <button class="orange-btn" data-answer="answer2">Đáp án</button>
+          <div class="answer" id="answer2">I’m eight years old.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="How are you?">
+        ${imageBox("how-are-you","pic-box")}
+        <div>
+          <div class="quiz-title">Câu 3</div>
+          <div class="quiz-text">Nghe và trả lời:</div>
+          ${playButton("How are you?")}
+          <button class="orange-btn" data-answer="answer3">Đáp án</button>
+          <div class="answer" id="answer3">I’m fine, thank you.</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-auto-speak="My name's Mary.">
+        ${imageBox("my-name-mary","pic-box")}
+        <div>
+          <div class="quiz-title">Câu 4</div>
+          <div class="quiz-text">Nghe và đọc lại:</div>
+          ${playButton("My name's Mary.")}
+          <button class="orange-btn" data-answer="answer4">Hiện câu</button>
+          <div class="answer" id="answer4">My name’s Mary.</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+const pages = [
+  coverPage,
+  focusPage,
+  () => vocabPage(0,4,"Vocabulary 1 - Từ vựng phần 1"),
+  () => vocabPage(4,8,"Vocabulary 2 - Từ vựng phần 2"),
+  sentencePage1,
+  sentencePage2,
+  phonicsPage,
+  quizPage
+];
+
+function fitPage(){
+  const vw = pageViewport.clientWidth;
+  const vh = pageViewport.clientHeight;
+  const cw = pageFit.offsetWidth;
+  const ch = pageFit.offsetHeight;
+  const scale = Math.min(vw / cw, vh / ch);
+  pageFit.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+
+function renderPage(shouldStop=true){
+  if(shouldStop) stopReading();
+
+  pageContent.innerHTML = pages[currentPage]();
+
+  pageFit.classList.remove("flip");
+  void pageFit.offsetWidth;
+  pageFit.classList.add("flip");
+
+  pageCount.textContent = `Trang ${currentPage + 1} / ${pages.length}`;
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = currentPage === pages.length - 1;
+
+  bindPageButtons();
+  handleImages();
+  fitPage();
+}
+
+function handleImages(){
+  pageContent.querySelectorAll("img").forEach(img => {
+    img.addEventListener("load", fitPage, { once:true });
+    img.addEventListener("error", () => {
+      const src = img.getAttribute("src");
+      const box = img.parentElement;
+      if(box){
+        box.innerHTML = `<div class="missing-img">Thiếu ảnh:<br>${src}</div>`;
+      }
+      fitPage();
+    }, { once:true });
+  });
+}
+
+function bindPageButtons(){
+  document.querySelectorAll("[data-speak]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      speakNow(btn.dataset.speak);
+    });
+  });
+
+  document.querySelectorAll("[data-answer]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const answer = document.getElementById(btn.dataset.answer);
+      if(answer){
+        answer.style.display = answer.style.display === "block" ? "none" : "block";
+        fitPage();
+      }
+    });
+  });
+}
+
+function getAutoItems(){
+  return Array.from(pageContent.querySelectorAll("[data-auto-speak]"))
+    .map(el => ({ el, text: el.dataset.autoSpeak }))
+    .filter(item => item.text && item.text.trim().length > 0);
+}
+
+function clearActive(){
+  pageContent.querySelectorAll(".active-card").forEach(el => {
+    el.classList.remove("active-card");
+  });
+}
+
+function stopReading(){
+  readingToken++;
+  clearActive();
+  speechSynthesis.cancel();
+}
+
+function speakNow(text){
+  stopReading();
+  const utterance = createUtterance(text);
+  speechSynthesis.speak(utterance);
+}
+
+function speakAsync(text, el, token){
+  return new Promise(resolve => {
+    if(token !== readingToken) return resolve();
+
+    clearActive();
+    if(el) el.classList.add("active-card");
+
+    const utterance = createUtterance(text);
+
+    utterance.onend = () => {
+      if(el) el.classList.remove("active-card");
+      setTimeout(resolve,260);
+    };
+
+    utterance.onerror = () => {
+      if(el) el.classList.remove("active-card");
+      resolve();
+    };
+
+    speechSynthesis.speak(utterance);
+  });
+}
+
+function createUtterance(text){
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  const voiceSelect = document.getElementById("voiceSelect");
+  const rateSelect = document.getElementById("rateSelect");
+  const selectedVoice = voices[voiceSelect.value];
+
+  if(selectedVoice){
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice.lang;
+  }else{
+    utterance.lang = "en-US";
+  }
+
+  utterance.rate = Number(rateSelect.value || 0.85);
+  utterance.pitch = 1;
+  return utterance;
+}
+
+async function playCurrentPage(){
+  stopReading();
+  const token = readingToken;
+  const items = getAutoItems();
+
+  for(const item of items){
+    if(token !== readingToken) break;
+    await speakAsync(item.text, item.el, token);
+  }
+
+  clearActive();
+}
+
+async function autoReadFromCurrentPage(){
+  stopReading();
+  const token = readingToken;
+
+  while(currentPage < pages.length && token === readingToken){
+    const items = getAutoItems();
+
+    for(const item of items){
+      if(token !== readingToken) break;
+      await speakAsync(item.text, item.el, token);
+    }
+
+    if(token !== readingToken) break;
+
+    if(currentPage < pages.length - 1){
+      currentPage++;
+      renderPage(false);
+      await new Promise(resolve => setTimeout(resolve,500));
+    }else{
+      break;
+    }
+  }
+
+  clearActive();
+}
+
+prevBtn.addEventListener("click", () => {
+  if(currentPage > 0){
+    currentPage--;
+    renderPage();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  if(currentPage < pages.length - 1){
+    currentPage++;
+    renderPage();
+  }
+});
+
+document.getElementById("playPageBtn").addEventListener("click", playCurrentPage);
+document.getElementById("autoBtn").addEventListener("click", autoReadFromCurrentPage);
+document.getElementById("stopBtn").addEventListener("click", stopReading);
+
+document.addEventListener("keydown", e => {
+  if(e.key === "ArrowRight") nextBtn.click();
+  if(e.key === "ArrowLeft") prevBtn.click();
+  if(e.key === "Escape") stopReading();
+});
+
+document.getElementById("fullBtn").addEventListener("click", async () => {
+  if(!document.fullscreenElement){
+    await document.documentElement.requestFullscreen();
+  }else{
+    await document.exitFullscreen();
+  }
+  setTimeout(fitPage,200);
+});
+
+window.addEventListener("resize", fitPage);
+document.addEventListener("fullscreenchange", () => setTimeout(fitPage,200));
+
+function loadVoices(){
+  voices = speechSynthesis.getVoices();
+
+  const voiceSelect = document.getElementById("voiceSelect");
+  voiceSelect.innerHTML = "";
+
+  const englishVoices = voices.filter(v => v.lang.toLowerCase().startsWith("en"));
+  const list = englishVoices.length ? englishVoices : voices;
+
+  list.forEach(voice => {
+    const option = document.createElement("option");
+    option.value = voices.indexOf(voice);
+    option.textContent = `${voice.name} - ${voice.lang}`;
+    voiceSelect.appendChild(option);
+  });
+
+  const usVoice = voices.findIndex(v => v.lang.toLowerCase().includes("en-us"));
+  if(usVoice !== -1){
+    voiceSelect.value = usVoice;
+  }
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+setTimeout(loadVoices,500);
+
+renderPage();
+</script>
+</body>
+</html>
