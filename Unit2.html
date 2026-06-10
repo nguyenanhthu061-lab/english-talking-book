@@ -1,523 +1,776 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Unit 2 - Our names - Talking Book V2</title>
+<title>Unit 2 - Our names - Lesson Flow</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box}
+
+:root{
+  --font-vn: Arial, sans-serif;
+  --font-round: "Baloo 2", Arial, sans-serif;
+  --blue:#18aee2;
+  --blue-dark:#0d8bad;
+  --orange:#f97316;
+  --orange-title:#f28c18;
+  --cream:#fff9ee;
+  --card:#ffffff;
+  --line:#d5f1f8;
+}
+
 html,body{
   width:100%;
   height:100%;
   margin:0;
   overflow:hidden;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#ede9fe,#fdf2f8);
-  color:#1f1235;
+  font-family:var(--font-vn);
+  background:#d8f3fb;
+  color:#222;
 }
+
 .app{
   width:100vw;
   height:100vh;
-  padding:10px;
+  padding:6px;
   display:grid;
-  grid-template-rows:70px 1fr 58px;
-  gap:8px;
+  grid-template-rows:62px minmax(0,1fr) 54px;
+  gap:6px;
+  overflow:hidden;
 }
+
 .topbar{
   background:#fff;
-  border-radius:18px;
-  padding:8px 14px;
+  border-radius:16px;
+  padding:7px 14px;
   display:grid;
   grid-template-columns:auto 1fr;
-  gap:12px;
   align-items:center;
-  box-shadow:0 4px 16px rgba(0,0,0,.08);
+  gap:12px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
+
 .brand{
-  font-weight:bold;
-  color:#6d28d9;
-  font-size:22px;
+  font-size:21px;
+  font-weight:900;
+  color:#0f8ebd;
   white-space:nowrap;
 }
+
 .controls{
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  gap:8px;
+  gap:7px;
   flex-wrap:wrap;
 }
+
 .controls b{
   font-size:13px;
-  color:#4c1d95;
+  color:#0f6f95;
 }
+
 select{
-  padding:7px 9px;
-  border:1px solid #d8b4fe;
+  padding:6px 8px;
+  border:1px solid #90d7ec;
   border-radius:10px;
-  background:#faf5ff;
-  max-width:190px;
+  background:#f0fbff;
+  max-width:180px;
 }
+
 .tool-btn{
   border:none;
   color:white;
   padding:8px 12px;
   border-radius:999px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:900;
   font-size:14px;
   white-space:nowrap;
 }
-.btn-purple{background:#7e22ce}
-.btn-blue{background:#2563eb}
-.btn-orange{background:#f97316}
+
+.btn-blue{background:#0ea5e9}
 .btn-green{background:#16a34a}
 .btn-gray{background:#64748b}
+.btn-orange{background:#f97316}
 
 .stage{
   min-height:0;
-  display:flex;
-  align-items:stretch;
-  justify-content:center;
-}
-.book{
-  width:min(1420px,100%);
-  height:100%;
-  background:#fff8ee;
-  border-radius:26px;
-  padding:16px;
-  box-shadow:0 18px 42px rgba(88,28,135,.16),inset 0 0 0 2px rgba(126,34,206,.08);
   overflow:hidden;
 }
+
+.book{
+  width:100%;
+  height:100%;
+  background:#d9f3fb;
+  border-radius:22px;
+  padding:6px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(14,116,144,.14);
+}
+
 .page-shell{
   width:100%;
   height:100%;
-  background:white;
-  border-radius:20px;
-  box-shadow:inset 0 0 0 1px #eee;
+  background:var(--cream);
+  border-radius:18px;
   overflow:hidden;
   position:relative;
 }
-.page-viewport{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  position:relative;
-}
-.page-fit{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:1180px;
-  height:760px;
-  transform-origin:center center;
-}
+
 .page-content{
-  width:1180px;
-  height:760px;
-  padding:18px;
-  background:white;
-}
-.page-fit.flip .page-content{
-  animation:flipPage .3s ease;
-}
-@keyframes flipPage{
-  from{opacity:0;transform:rotateY(-8deg) translateX(18px);transform-origin:left center}
-  to{opacity:1;transform:rotateY(0) translateX(0);transform-origin:left center}
-}
-.page-title{
-  margin:0 0 14px;
-  color:#7e22ce;
-  font-size:32px;
-  border-left:10px solid #a855f7;
-  padding-left:14px;
-  line-height:1.15;
-}
-.sub-title{
-  font-size:18px;
-  color:#555;
-  margin:-6px 0 14px 24px;
-}
-.cover{
   width:100%;
   height:100%;
-  border-radius:20px;
-  background:radial-gradient(circle at top left,#f3e8ff,transparent 35%),radial-gradient(circle at bottom right,#fce7f3,transparent 35%);
+  background:var(--cream);
+  position:relative;
+  overflow:hidden;
+  padding:18px 34px 18px 92px;
+}
+
+.page-content::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:78px;
+  height:100%;
+  background:linear-gradient(180deg,#6fd4ec,#b8edf8);
+  border-radius:0 38px 38px 0;
+  z-index:0;
+}
+
+.page-inner{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:8px;
+  animation:pageIn .25s ease;
+}
+
+@keyframes pageIn{
+  from{opacity:.2;transform:translateX(20px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+.book-header{
+  height:66px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
   align-items:center;
-  padding:32px;
+  gap:14px;
 }
-.unit-badge{
-  display:inline-block;
-  background:#7e22ce;
+
+.unit-circle{
+  width:86px;
+  height:86px;
+  border-radius:0 0 50% 0;
+  background:#f36c21;
   color:white;
-  padding:10px 24px;
-  border-radius:999px;
-  font-size:24px;
-  font-weight:bold;
-  margin-bottom:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  box-shadow:0 7px 0 #0ea5e9;
+  margin-left:-50px;
+  margin-top:-20px;
 }
-.cover h1{
-  font-size:68px;
-  color:#dc2626;
-  margin:0 0 14px;
+
+.unit-circle span:first-child{
+  font-size:15px;
+  line-height:1;
+}
+
+.unit-circle span:last-child{
+  font-size:38px;
+  line-height:1;
+}
+
+.main-title{
+  font-family:var(--font-round);
+  font-size:50px;
+  line-height:1;
+  margin:0;
+  color:var(--orange-title);
+  text-shadow:2px 3px 0 #fff,3px 5px 0 rgba(0,0,0,.08);
+  font-weight:900;
+}
+
+.lesson-ribbon{
+  display:inline-block;
+  background:#20a9d1;
+  color:white;
+  font-size:18px;
+  font-weight:900;
+  padding:7px 24px;
+  border-radius:6px;
+  box-shadow:0 4px 0 #0d8bad;
+  text-transform:uppercase;
+}
+
+.page-body{
+  min-height:0;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:8px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+
+.num{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#26b6d9;
+  color:white;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 3px 0 #0c91b3;
+  flex:0 0 auto;
+}
+
+.section-label{
+  color:#27adc9;
+  font-size:25px;
+  font-weight:900;
+}
+
+.sub-title{
+  margin:0 0 4px 42px;
+  color:#5b6470;
+  font-size:17px;
+  font-weight:700;
+}
+
+/* COVER */
+.cover-body{
+  min-height:0;
+  display:grid;
+  grid-template-columns:.95fr 1.05fr;
+  gap:18px;
+  align-items:center;
+}
+
+.cover-text{
+  background:rgba(255,255,255,.86);
+  border:2px solid #cdeef7;
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 8px 20px rgba(14,165,233,.08);
+}
+
+.page-title{
+  margin:0 0 12px;
+  font-family:var(--font-round);
+  font-size:40px;
+  color:var(--orange-title);
+  font-weight:900;
   line-height:1.05;
 }
-.cover p{
-  font-size:24px;
-  color:#444;
+
+.cover-text p{
+  font-size:23px;
+  line-height:1.38;
   margin:10px 0;
 }
-.cover-gallery{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
-}
-.cover-pic{
-  background:white;
-  border:2px solid #e9d5ff;
-  border-radius:22px;
-  height:180px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-.cover-pic img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:10px;
-}
+
 .big-speaker{
-  margin-top:24px;
-  font-size:22px;
-  padding:14px 26px;
-  border-radius:999px;
+  margin-top:12px;
   border:none;
-  background:#7e22ce;
+  background:#f97316;
   color:white;
+  padding:13px 22px;
+  border-radius:999px;
+  font-size:19px;
+  font-weight:900;
   cursor:pointer;
-  box-shadow:0 6px 15px rgba(126,34,206,.3);
+  box-shadow:0 5px 12px rgba(249,115,22,.25);
 }
-.focus-grid{
-  height:calc(100% - 58px);
-  display:grid;
-  grid-template-columns:1.05fr .95fr;
-  grid-template-rows:1fr 1fr;
-  gap:18px;
-}
-.focus-card{
-  border:2px solid #e9d5ff;
-  border-radius:22px;
-  background:white;
-  padding:20px;
+
+.cover-gallery{
   min-height:0;
-}
-.focus-card h3{
-  margin:0 0 12px;
-  font-size:26px;
-  color:#7e22ce;
-}
-.focus-card p,.focus-card li{
-  font-size:22px;
-  line-height:1.45;
-}
-.focus-card ul{
-  margin:8px 0 0;
-  padding-left:24px;
-}
-.formula{
-  background:#faf5ff;
-  border-radius:16px;
-  padding:12px 16px;
-  font-size:24px;
-  line-height:1.5;
-  border:1px solid #e9d5ff;
-}
-.vocab-grid{
-  height:calc(100% - 58px);
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  grid-template-rows:repeat(2,1fr);
-  gap:18px;
-}
-.vocab-card{
-  border:2px solid #e9d5ff;
-  background:white;
-  border-radius:24px;
-  padding:18px;
-  display:grid;
-  grid-template-columns:220px 1fr 60px;
-  gap:18px;
-  align-items:center;
-  min-width:0;
-  transition:.2s;
-}
-.pic-box{
-  width:220px;
-  height:170px;
-  background:#faf5ff;
-  border-radius:20px;
-  border:1px solid #ede9fe;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-.pic-box img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:8px;
-  display:block;
-}
-.word{
-  font-size:34px;
-  font-weight:bold;
-  color:#dc2626;
-  margin-bottom:8px;
-  line-height:1.05;
-  word-break:break-word;
-}
-.mean{
-  font-size:22px;
-  color:#333;
-  line-height:1.25;
-}
-.phonetic{
-  font-size:18px;
-  color:#6b7280;
-  margin-bottom:5px;
-}
-.play{
-  width:54px;
-  height:54px;
-  border-radius:16px;
-  border:2px solid #7e22ce;
-  background:white;
-  color:#7e22ce;
-  font-size:24px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.play:hover{
-  background:#7e22ce;
-  color:white;
-}
-.sentence-layout{
-  height:calc(100% - 58px);
-  display:grid;
-  grid-template-columns:.9fr 1.1fr;
-  gap:18px;
-}
-.pattern-box{
-  background:#faf5ff;
-  border:2px solid #e9d5ff;
-  border-radius:22px;
-  padding:22px;
-  font-size:24px;
-  line-height:1.65;
-}
-.sentence-list{
-  display:grid;
-  gap:12px;
-}
-.sentence-card{
-  border:2px solid #e9d5ff;
-  border-radius:18px;
-  background:white;
-  padding:12px;
-  display:grid;
-  grid-template-columns:150px 1fr 56px;
+  grid-template-columns:1fr 1fr;
   gap:14px;
-  align-items:center;
-  min-width:0;
-  transition:.2s;
 }
-.mini-pic{
-  width:150px;
-  height:98px;
-  border-radius:16px;
-  background:#faf5ff;
-  border:1px solid #ede9fe;
+
+.book-pic{
+  background:white;
+  border:3px solid var(--line);
+  border-radius:22px;
+  min-height:0;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
+  box-shadow:0 8px 18px rgba(14,165,233,.10);
 }
+
+.book-pic img,
+.pic-box img,
 .mini-pic img{
   width:100%;
   height:100%;
   object-fit:contain;
-  padding:5px;
-  display:block;
+  padding:6px;
 }
-.sentence-en{
+
+/* FOCUS */
+.focus-grid{
+  min-height:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:14px;
+}
+
+.focus-card{
+  background:white;
+  border:2px solid #d4eef6;
+  border-radius:22px;
+  padding:16px;
+  box-shadow:0 8px 18px rgba(14,165,233,.08);
+  overflow:hidden;
+  transition:.2s;
+}
+
+.focus-card h3{
+  margin:0 0 8px;
+  font-size:23px;
+  font-weight:900;
+  color:#0f8ebd;
+}
+
+.focus-card p,
+.focus-card li{
+  font-size:20px;
+  line-height:1.38;
+  margin:4px 0;
+  font-weight:700;
+}
+
+.focus-card ul{
+  margin:4px 0 0;
+  padding-left:22px;
+}
+
+.formula{
+  background:#fff6df;
+  border:2px dashed #f8bd54;
+  border-radius:16px;
+  padding:10px 12px;
   font-size:22px;
-  color:#111827;
-  font-weight:bold;
-  line-height:1.2;
+  line-height:1.34;
+  font-weight:700;
 }
+
+/* VOCAB */
+.vocab-grid{
+  min-height:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:14px;
+}
+
+.vocab-card{
+  background:white;
+  border:2px solid var(--line);
+  border-radius:22px;
+  padding:12px;
+  display:grid;
+  grid-template-columns:180px minmax(0,1fr) 46px;
+  gap:12px;
+  align-items:center;
+  min-width:0;
+  overflow:hidden;
+  box-shadow:0 8px 18px rgba(14,165,233,.08);
+  transition:.2s;
+}
+
+.pic-box{
+  width:180px;
+  height:130px;
+  border-radius:18px;
+  background:#eefaff;
+  border:1px solid #cdeef7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.word{
+  font-family:var(--font-round);
+  font-size:31px;
+  font-weight:900;
+  color:#ef4444;
+  line-height:1.05;
+  margin-bottom:5px;
+}
+
+.phonetic{
+  font-size:17px;
+  color:#667085;
+  margin-bottom:4px;
+  font-weight:700;
+}
+
+.mean{
+  font-size:21px;
+  color:#222;
+  line-height:1.22;
+  font-weight:700;
+}
+
+.play{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:#ffbe3d;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 4px 0 #dd8f00;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.play:hover{
+  transform:translateY(-2px);
+}
+
+/* ACTIVITY - ĐÃ LÀM TO HƠN ĐỂ UNIT 2 KHÔNG BỊ NHỎ */
+.activity-layout{
+  min-height:0;
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:14px;
+}
+
+.pattern-box{
+  background:#fff6df;
+  border:2px solid #f6d186;
+  border-radius:22px;
+  padding:18px;
+  font-size:23px;
+  line-height:1.42;
+  font-weight:700;
+  box-shadow:0 8px 18px rgba(249,115,22,.08);
+  overflow:hidden;
+}
+
+.pattern-line{
+  margin-bottom:14px;
+}
+
+.activity-cards{
+  min-height:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-auto-rows:1fr;
+  gap:10px;
+}
+
+.activity-card{
+  background:white;
+  border:2px solid var(--line);
+  border-radius:18px;
+  padding:10px;
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr) 46px;
+  gap:12px;
+  align-items:center;
+  overflow:hidden;
+  box-shadow:0 6px 14px rgba(14,165,233,.08);
+  transition:.2s;
+}
+
+.mini-pic{
+  width:150px;
+  height:98px;
+  border-radius:16px;
+  background:#eefaff;
+  border:1px solid #cdeef7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.sentence-en{
+  font-family:var(--font-round);
+  font-size:24px;
+  color:#111827;
+  font-weight:900;
+  line-height:1.14;
+}
+
 .sentence-vi{
   font-size:17px;
   color:#555;
   margin-top:4px;
   line-height:1.25;
+  font-weight:700;
 }
-.phonics-layout{
-  height:calc(100% - 58px);
+
+.song-box{
+  background:#fff6df;
+  border:2px solid #f6d186;
+  border-radius:22px;
+  padding:18px;
+  font-size:28px;
+  line-height:1.45;
+  font-weight:900;
+  text-align:center;
+  white-space:pre-line;
+}
+
+/* QUIZ */
+.quiz-layout{
+  min-height:0;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-.phonic-card{
-  background:white;
-  border:2px solid #e9d5ff;
-  border-radius:22px;
-  padding:22px;
-  display:grid;
-  grid-template-rows:auto auto 1fr;
+  grid-template-rows:1fr 1fr;
   gap:14px;
-  min-width:0;
-  min-height:0;
 }
-.sound-symbol{
-  font-size:82px;
-  color:#dc2626;
-  font-weight:bold;
-  line-height:1;
-}
-.phonic-desc{
-  font-size:21px;
-  line-height:1.35;
-}
-.phonic-examples{
-  display:grid;
-  gap:12px;
-  min-height:0;
-}
-.phonic-row{
-  display:grid;
-  grid-template-columns:130px 1fr 56px;
-  gap:12px;
-  align-items:center;
-  border:1px solid #f3e8ff;
-  border-radius:16px;
-  padding:10px;
-  min-width:0;
-  transition:.2s;
-}
-.quiz-layout{
-  height:calc(100% - 58px);
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  grid-template-rows:repeat(2,1fr);
-  gap:18px;
-}
+
 .quiz-card{
-  background:#fff7ed;
-  border:2px solid #fed7aa;
+  background:#fff8e7;
+  border:2px solid #f6d186;
   border-radius:22px;
-  padding:16px;
+  padding:12px;
   display:grid;
-  grid-template-columns:210px 1fr;
-  gap:16px;
+  grid-template-columns:170px minmax(0,1fr);
+  gap:12px;
   align-items:center;
-  min-width:0;
+  overflow:hidden;
+  box-shadow:0 8px 18px rgba(249,115,22,.08);
   transition:.2s;
 }
+
+.quiz-card .pic-box{
+  width:170px;
+  height:122px;
+}
+
 .quiz-title{
-  font-size:24px;
-  font-weight:bold;
-  color:#9a3412;
-  margin-bottom:10px;
+  font-size:23px;
+  font-weight:900;
+  color:#d97706;
+  margin-bottom:6px;
 }
+
 .quiz-text{
-  font-size:20px;
+  font-size:18px;
   color:#333;
-  margin-bottom:8px;
+  margin-bottom:6px;
+  font-weight:700;
 }
+
 .answer{
   display:none;
-  margin-top:10px;
-  padding:8px 12px;
+  margin-top:8px;
+  padding:7px 10px;
   background:white;
   border-radius:12px;
   color:#16a34a;
-  font-size:20px;
-  font-weight:bold;
-  line-height:1.2;
+  font-size:18px;
+  font-weight:900;
 }
+
 .orange-btn{
   border:none;
   background:#f97316;
   color:white;
-  padding:10px 16px;
+  padding:9px 14px;
   border-radius:999px;
   cursor:pointer;
-  font-weight:bold;
-  margin-left:8px;
-  font-size:16px;
+  font-weight:900;
+  margin-left:6px;
+  font-size:15px;
 }
+
+/* ACTIVE */
 .active-card{
-  box-shadow:0 0 0 5px rgba(126,34,206,.18);
-  border-color:#7e22ce!important;
-  transform:scale(1.015);
+  border-color:#f97316!important;
+  box-shadow:0 0 0 5px rgba(249,115,22,.25),0 12px 24px rgba(249,115,22,.16)!important;
+  transform:scale(1.012);
+  background:#fff8d8!important;
 }
+
+/* NAV */
 .nav{
+  height:54px;
   display:flex;
   justify-content:center;
   align-items:center;
   gap:14px;
+  overflow:hidden;
 }
-.nav button{
+
+.nav button,
+.nav-btn{
   border:none;
-  background:#7e22ce;
+  background:#0ea5e9;
   color:white;
-  padding:12px 24px;
+  padding:8px 22px;
   border-radius:999px;
-  font-size:17px;
-  font-weight:bold;
+  min-width:220px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
   cursor:pointer;
-  box-shadow:0 5px 14px rgba(126,34,206,.28);
+  box-shadow:0 5px 14px rgba(14,165,233,.25);
+  font-family:var(--font-round);
+  font-size:22px;
+  font-weight:900;
+  line-height:1.15;
 }
-.nav button:disabled{
-  background:#c4b5fd;
+
+.nav button:hover,
+.nav-btn:hover{
+  transform:translateY(-1px);
+}
+
+.nav button:disabled,
+.nav-btn:disabled{
+  background:#9ed8ec;
   cursor:not-allowed;
   box-shadow:none;
+  opacity:.9;
+  transform:none;
 }
+
+.nav-text{
+  display:inline-block;
+  white-space:nowrap;
+  padding-bottom:3px;
+}
+
+.nav-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+  font-size:26px;
+  font-weight:900;
+  line-height:1;
+}
+
 .page-count{
   background:white;
-  color:#6d28d9;
-  padding:10px 20px;
+  color:#0f8ebd;
+  padding:8px 20px;
   border-radius:999px;
-  font-weight:bold;
+  min-width:150px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   box-shadow:0 3px 10px rgba(0,0,0,.08);
-  font-size:17px;
+  font-family:var(--font-round);
+  font-size:22px;
+  font-weight:900;
+  line-height:1.15;
+  white-space:nowrap;
 }
+
 .missing-img{
   width:100%;
   height:100%;
-  color:#7e22ce;
-  font-size:14px;
+  color:#0f8ebd;
+  font-size:13px;
   text-align:center;
-  padding:12px;
+  padding:8px;
   display:flex;
   align-items:center;
   justify-content:center;
   line-height:1.3;
 }
-@media(max-width:900px){
-  .app{grid-template-rows:82px 1fr 58px}
-  .topbar{grid-template-columns:1fr}
-  .brand{font-size:18px}
-  .controls{justify-content:flex-start}
+/* FIX BALOO 2 - CHỮ TRÒN, DÀY, HỖ TRỢ TIẾNG VIỆT */
+.main-title,
+.page-title,
+.word,
+.sentence-en,
+.nav-btn,
+.nav-text,
+.page-count,
+.lesson-ribbon,
+.section-label,
+.focus-card h3{
+  font-family:var(--font-round) !important;
+  font-weight:800;
+  letter-spacing:0;
+}
+
+.main-title{
+  line-height:1.05;
+}
+
+.page-title,
+.word,
+.sentence-en{
+  line-height:1.12;
+}
+
+.section-label,
+.focus-card h3{
+  line-height:1.18;
+}
+/* FIX 3 NÚT TRÊN THANH CÔNG CỤ: PHÁT TRANG - TỰ ĐỘNG ĐỌC - DỪNG */
+.controls .tool-btn{
+  font-family:"Baloo 2", Arial, sans-serif !important;
+  font-weight:800 !important;
+  font-size:17px !important;
+  line-height:1.25 !important;
+
+  height:42px;
+  padding:7px 18px 9px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+
+  border-radius:999px;
+  white-space:nowrap;
+  overflow:visible;
+
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* Nút Dừng hơi ngắn nên cho rộng thêm */
+#stopBtn{
+  min-width:92px;
+}
+
+/* Nút Tự động đọc dài hơn */
+#autoBtn{
+  min-width:142px;
+}
+
+/* Nút Phát trang */
+#playPageBtn{
+  min-width:128px;
 }
 </style>
 </head>
@@ -525,7 +778,7 @@ select{
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand">📖 Unit 2: Our names</div>
+    <div class="brand" id="brand">📘 English Talking Book</div>
     <div class="controls">
       <button class="tool-btn btn-blue" id="playPageBtn">▶ Phát trang</button>
       <button class="tool-btn btn-green" id="autoBtn">⏯ Tự động đọc</button>
@@ -541,59 +794,180 @@ select{
         <option value="1">Bình thường</option>
       </select>
 
-      <button class="tool-btn btn-purple" id="fullBtn">⛶ Toàn màn hình</button>
+      <button class="tool-btn btn-orange" id="fullBtn">⛶ Toàn màn hình</button>
     </div>
   </div>
 
   <div class="stage">
     <div class="book">
       <div class="page-shell">
-        <div class="page-viewport" id="pageViewport">
-          <div class="page-fit" id="pageFit">
-            <div class="page-content" id="pageContent"></div>
-          </div>
-        </div>
+        <div class="page-content" id="pageContent"></div>
       </div>
     </div>
   </div>
 
   <div class="nav">
-    <button id="prevBtn">⬅ Trang trước</button>
+    <button id="prevBtn" class="nav-btn">
+      <span class="nav-icon">←</span>
+      <span class="nav-text">Trang trước</span>
+    </button>
+
     <div class="page-count" id="pageCount"></div>
-    <button id="nextBtn">Trang sau ➡</button>
+
+    <button id="nextBtn" class="nav-btn">
+      <span class="nav-text">Trang sau</span>
+      <span class="nav-icon">→</span>
+    </button>
   </div>
 </div>
 
 <script>
-const vocabulary = [
-  { key:"name", en:"name", phonetic:"/neɪm/", type:"n.", vi:"tên", img:"images/name.png" },
-  { key:"my", en:"my", phonetic:"/maɪ/", type:"adj.", vi:"của tôi", img:"images/my.png" },
-  { key:"your", en:"your", phonetic:"/jɔːr/", type:"adj.", vi:"của bạn, của anh/chị", img:"images/your.png" },
-  { key:"how", en:"how", phonetic:"/haʊ/", type:"adv.", vi:"như thế nào", img:"images/how.png" },
-  { key:"old", en:"old", phonetic:"/əʊld/", type:"adj.", vi:"cũ, già", img:"images/old.png" },
-  { key:"what", en:"what", phonetic:"/wɒt/", type:"pron.", vi:"gì, cái gì", img:"images/what.png" },
-  { key:"i", en:"I", phonetic:"/aɪ/", type:"pron.", vi:"tôi", img:"images/i.png" },
-  { key:"am", en:"am", phonetic:"/æm/", type:"v.", vi:"là", img:"images/am.png" }
-];
+const DATA = {
+  number:2,
+  title:"Our names",
+  topic:"Hỏi tên, giới thiệu tên và hỏi tuổi.",
+  coverSpeak:"Unit two. Our names.",
+  coverImages:["whats-your-name","my-name-nam","how-old-are-you","im-eight-years-old"],
 
-const images = {
-  "name":"images/name.png",
-  "my":"images/my.png",
-  "your":"images/your.png",
-  "how":"images/how.png",
-  "old":"images/old.png",
-  "what":"images/what.png",
-  "i":"images/i.png",
-  "am":"images/am.png",
+  focus:[
+    {title:"Vocabulary", speak:"Vocabulary. name. my. your. how. old. what. I. am.", lines:["name, my, your","how, old, what","I, am"]},
+    {title:"Lesson 1 - Hỏi tên", speak:"What's your name? My name's Ben.", formula:[["What’s your name?","Bạn tên là gì?"],["My name’s ...","Tên tôi là ..."]]},
+    {title:"Lesson 2 - Hỏi tuổi", speak:"How old are you? I'm eight years old.", formula:[["How old are you?","Bạn bao nhiêu tuổi?"],["I’m ... years old.","Tôi ... tuổi."]]},
+    {title:"Lesson 3 - Listen and repeat", speak:"Mary. Nam. I'm Mary. My name's Nam.", formula:[["m - Mary","I’m Mary."],["n - Nam","My name’s Nam."]]}
+  ],
 
-  "whats-your-name":"images/whats-your-name.png",
-  "my-name-nam":"images/my-name-nam.png",
-  "my-name-mary":"images/my-name-mary.png",
-  "how-old-are-you":"images/how-old-are-you.png",
-  "im-nine-years-old":"images/im-nine-years-old.png",
-  "im-eight-years-old":"images/im-eight-years-old.png",
-  "how-are-you":"images/how-are-you.png",
-  "im-fine-thank-you":"images/im-fine-thank-you.png"
+  vocab:[
+    {key:"name", en:"name", speak:"name", phonetic:"/neɪm/", type:"n.", vi:"tên"},
+    {key:"my", en:"my", speak:"my", phonetic:"/maɪ/", type:"det.", vi:"của tôi"},
+    {key:"your", en:"your", speak:"your", phonetic:"/jɔːr/", type:"det.", vi:"của bạn"},
+    {key:"how", en:"how", speak:"how", phonetic:"/haʊ/", type:"adv.", vi:"như thế nào"},
+    {key:"old", en:"old", speak:"old", phonetic:"/əʊld/", type:"adj.", vi:"già, cũ"},
+    {key:"what", en:"what", speak:"what", phonetic:"/wɒt/", type:"pron.", vi:"gì, cái gì"},
+    {key:"i", en:"I", speak:"I", phonetic:"/aɪ/", type:"pron.", vi:"tôi"},
+    {key:"am", en:"am", speak:"am", phonetic:"/æm/", type:"v.", vi:"là"}
+  ],
+
+  lessons:[
+    {
+      label:"Lesson 1",
+      activities:[
+        {
+          num:3,
+          title:"Look, listen and repeat",
+          pattern:[["What’s your name?","Bạn tên là gì?"],["My name’s ...","Tên tôi là ..."]],
+          cards:[
+            {en:"Hi, I’m Linh.", speak:"Hi, I'm Linh.", vi:"Chào, mình là Linh.", img:"hi-im-linh"},
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"whats-your-name"},
+            {en:"My name’s Ben.", speak:"My name's Ben.", vi:"Tên mình là Ben.", img:"my-name-ben"},
+            {en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên mình là Mary.", img:"my-name-mary"}
+          ]
+        },
+        {
+          num:4,
+          title:"Listen, point and say",
+          pattern:[["What’s your name?","Bạn tên là gì?"],["My name’s ...","Tên tôi là ..."]],
+          cards:[
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"whats-your-name"},
+            {en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", img:"my-name-nam"},
+            {en:"My name’s Bill.", speak:"My name's Bill.", vi:"Tên tôi là Bill.", img:"my-name-bill"},
+            {en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên tôi là Mary.", img:"my-name-mary"}
+          ]
+        },
+        {
+          num:5,
+          title:"Let’s talk",
+          pattern:[["What’s your name?","Bạn tên là gì?"],["My name’s ...","Tên tôi là ..."]],
+          cards:[
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"lets-talk-name"},
+            {en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", img:"my-name-nam"},
+            {en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên tôi là Mary.", img:"my-name-mary"},
+            {en:"Practise with your friend.", speak:"Practise with your friend.", vi:"Luyện nói với bạn.", img:"friend-talk"}
+          ]
+        }
+      ]
+    },
+
+    {
+      label:"Lesson 2",
+      activities:[
+        {
+          num:6,
+          title:"Look, listen and repeat",
+          pattern:[["What’s your name?","Bạn tên là gì?"],["How old are you?","Bạn bao nhiêu tuổi?"],["I’m ... years old.","Tôi ... tuổi."]],
+          cards:[
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"whats-your-name"},
+            {en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên mình là Mary.", img:"my-name-mary"},
+            {en:"How old are you?", speak:"How old are you?", vi:"Bạn bao nhiêu tuổi?", img:"how-old-are-you"},
+            {en:"I’m eight years old.", speak:"I'm eight years old.", vi:"Mình tám tuổi.", img:"im-eight-years-old"}
+          ]
+        },
+        {
+          num:7,
+          title:"Listen, point and say",
+          pattern:[["How old are you?","Bạn bao nhiêu tuổi?"],["I’m ... years old.","Tôi ... tuổi."]],
+          cards:[
+            {en:"How old are you?", speak:"How old are you?", vi:"Bạn bao nhiêu tuổi?", img:"how-old-are-you"},
+            {en:"I’m seven years old.", speak:"I'm seven years old.", vi:"Tôi bảy tuổi.", img:"im-seven-years-old"},
+            {en:"I’m eight years old.", speak:"I'm eight years old.", vi:"Tôi tám tuổi.", img:"im-eight-years-old"},
+            {en:"I’m nine years old.", speak:"I'm nine years old.", vi:"Tôi chín tuổi.", img:"im-nine-years-old"}
+          ]
+        },
+        {
+          num:8,
+          title:"Let’s talk",
+          pattern:[["How old are you?","Bạn bao nhiêu tuổi?"],["I’m ... years old.","Tôi ... tuổi."]],
+          cards:[
+            {en:"How old are you?", speak:"How old are you?", vi:"Bạn bao nhiêu tuổi?", img:"lets-talk-age"},
+            {en:"I’m seven years old.", speak:"I'm seven years old.", vi:"Tôi bảy tuổi.", img:"im-seven-years-old"},
+            {en:"I’m eight years old.", speak:"I'm eight years old.", vi:"Tôi tám tuổi.", img:"im-eight-years-old"},
+            {en:"I’m nine years old.", speak:"I'm nine years old.", vi:"Tôi chín tuổi.", img:"im-nine-years-old"}
+          ]
+        },
+        {
+          num:9,
+          title:"Let’s sing",
+          song:"How old are you?\nHow old are you?\nI’m seven years old.\nHow old are you?\nI’m eight years old.",
+          speak:"How old are you? How old are you? I'm seven years old. How old are you? I'm eight years old.",
+          img:"how-old-song"
+        }
+      ]
+    },
+
+    {
+      label:"Lesson 3",
+      activities:[
+        {
+          num:10,
+          title:"Listen and repeat",
+          pattern:[["m - Mary","I’m Mary."],["n - Nam","My name’s Nam."]],
+          cards:[
+            {en:"Mary", speak:"Mary", vi:"Mary", img:"my-name-mary"},
+            {en:"I’m Mary.", speak:"I'm Mary.", vi:"Tôi là Mary.", img:"my-name-mary"},
+            {en:"Nam", speak:"Nam", vi:"Nam", img:"my-name-nam"},
+            {en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", img:"my-name-nam"}
+          ]
+        },
+        {
+          num:11,
+          title:"Let’s chant",
+          pattern:[["What’s your name?","Bạn tên là gì?"],["My name’s Mary / Nam.","Tên tôi là Mary / Nam."]],
+          cards:[
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"whats-your-name"},
+            {en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên tôi là Mary.", img:"my-name-mary"},
+            {en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", img:"whats-your-name"},
+            {en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", img:"my-name-nam"}
+          ]
+        }
+      ]
+    }
+  ],
+
+  quiz:[
+    {q:"Nghe và trả lời:", speak:"What's your name?", img:"whats-your-name", answer:"My name’s Nam."},
+    {q:"Nghe và trả lời:", speak:"How old are you?", img:"how-old-are-you", answer:"I’m eight years old."},
+    {q:"Nghe và đọc lại:", speak:"My name's Mary.", img:"my-name-mary", answer:"My name’s Mary."},
+    {q:"Nghe và đọc lại:", speak:"I'm nine years old.", img:"im-nine-years-old", answer:"I’m nine years old."}
+  ]
 };
 
 let currentPage = 0;
@@ -601,18 +975,19 @@ let voices = [];
 let readingToken = 0;
 
 const pageContent = document.getElementById("pageContent");
-const pageFit = document.getElementById("pageFit");
-const pageViewport = document.getElementById("pageViewport");
 const pageCount = document.getElementById("pageCount");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-function imageUrl(key){
-  return images[key] || "";
+document.title = `Unit ${DATA.number} - ${DATA.title} - Lesson Flow`;
+document.getElementById("brand").textContent = `📘 Unit ${DATA.number}: ${DATA.title}`;
+
+function img(key){
+  return `images/${key}.png`;
 }
 
 function escapeHtml(text){
-  return String(text)
+  return String(text ?? "")
     .replaceAll("&","&amp;")
     .replaceAll('"',"&quot;")
     .replaceAll("<","&lt;")
@@ -626,320 +1001,240 @@ function playButton(text){
 function imageBox(key,className="pic-box"){
   return `
     <div class="${className}">
-      <img src="${imageUrl(key)}" alt="${key}">
+      <img src="${img(key)}" alt="${escapeHtml(key)}">
     </div>
   `;
 }
 
-function coverPage(){
+function bookHeader(lesson){
   return `
-    <div class="cover" data-auto-speak="Unit two. Our names.">
-      <div>
-        <div class="unit-badge">UNIT 2</div>
-        <h1>Our names</h1>
-        <p>Sách nói tương tác tiếng Anh</p>
-        <p>Chủ đề: Hỏi tên, giới thiệu tên, hỏi tuổi và hỏi thăm sức khỏe</p>
-        <button class="big-speaker" data-speak="Unit two. Our names.">🔈 Nghe tên bài</button>
+    <div class="book-header">
+      <div class="unit-circle">
+        <span>UNIT</span>
+        <span>${DATA.number}</span>
+      </div>
+      <h1 class="main-title">${DATA.title}</h1>
+      <div class="lesson-ribbon">${lesson}</div>
+    </div>
+  `;
+}
+
+function sectionTitle(num,title){
+  return `
+    <div class="section-title">
+      <div class="num">${num}</div>
+      <div class="section-label">${title}</div>
+    </div>
+  `;
+}
+
+function pageWrap(header,body){
+  return `
+    <div class="page-inner">
+      ${header}
+      ${body}
+    </div>
+  `;
+}
+
+function renderCover(){
+  return pageWrap(
+    bookHeader("Interactive book"),
+    `
+    <div class="cover-body">
+      <div class="cover-text" data-auto-speak="${escapeHtml(DATA.coverSpeak)}">
+        <h2 class="page-title">${DATA.title}</h2>
+        <p><b>Chủ đề:</b> ${DATA.topic}</p>
+        <p>Học theo đúng mạch: <b>Vocabulary → Lesson 1 → Lesson 2 → Lesson 3 → Mini Game</b>.</p>
+        <button class="big-speaker" data-speak="${escapeHtml(DATA.coverSpeak)}">🔈 Nghe tên bài</button>
       </div>
 
       <div class="cover-gallery">
-        <div class="cover-pic"><img src="${imageUrl("whats-your-name")}" alt=""></div>
-        <div class="cover-pic"><img src="${imageUrl("my-name-nam")}" alt=""></div>
-        <div class="cover-pic"><img src="${imageUrl("how-old-are-you")}" alt=""></div>
-        <div class="cover-pic"><img src="${imageUrl("how-are-you")}" alt=""></div>
+        ${DATA.coverImages.map(k => `<div class="book-pic"><img src="${img(k)}" alt=""></div>`).join("")}
       </div>
     </div>
-  `;
+    `
+  );
 }
 
-function focusPage(){
-  return `
-    <h2 class="page-title">Trọng tâm bài học</h2>
-    <div class="focus-grid">
-      <div class="focus-card" data-auto-speak="Vocabulary. name. my. your. how. old. what. I. am.">
-        <h3>1. Vocabulary - Từ vựng</h3>
-        <p><b>Chủ đề:</b> hỏi tên, giới thiệu tên, hỏi tuổi.</p>
-        <ul>
-          <li>name, my, your</li>
-          <li>how, old, what</li>
-          <li>I, am</li>
-        </ul>
-      </div>
+function renderFocus(){
+  return pageWrap(
+    bookHeader("Trọng tâm"),
+    `
+    <div class="page-body">
+      <div class="body-head">${sectionTitle(1,"Trọng tâm bài học")}</div>
 
-      <div class="focus-card" data-auto-speak="What's your name? My name's Nam.">
-        <h3>2. Hỏi và giới thiệu tên</h3>
-        <div class="formula">
-          <b>What’s your name?</b><br>
-          Bạn tên là gì?<br><br>
-          <b>My name’s ...</b><br>
-          Tên tôi là ...
-        </div>
-      </div>
-
-      <div class="focus-card" data-auto-speak="How old are you? I'm nine years old.">
-        <h3>3. Hỏi và nói tuổi</h3>
-        <div class="formula">
-          <b>How old are you?</b><br>
-          Bạn bao nhiêu tuổi?<br><br>
-          <b>I’m ... years old.</b><br>
-          Tôi ... tuổi.
-        </div>
-      </div>
-
-      <div class="focus-card" data-auto-speak="How are you? I'm fine, thank you.">
-        <h3>4. Hỏi thăm sức khỏe</h3>
-        <div class="formula">
-          <b>How are you?</b><br>
-          Bạn khỏe không?<br><br>
-          <b>I’m fine, thank you.</b><br>
-          Tôi khỏe, cảm ơn bạn.
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function vocabPage(start,end,title){
-  const items = vocabulary.slice(start,end);
-  return `
-    <h2 class="page-title">${title}</h2>
-    <p class="sub-title">Mỗi trang Vocabulary chỉ có 4 từ.</p>
-    <div class="vocab-grid">
-      ${items.map(item => `
-        <div class="vocab-card" data-auto-speak="${escapeHtml(item.en)}">
-          ${imageBox(item.key)}
-          <div>
-            <div class="word">${item.en}</div>
-            <div class="phonetic">${item.phonetic} - ${item.type}</div>
-            <div class="mean">${item.vi}</div>
+      <div class="focus-grid">
+        ${DATA.focus.map(card => `
+          <div class="focus-card" data-auto-speak="${escapeHtml(card.speak)}">
+            <h3>${card.title}</h3>
+            ${
+              card.lines
+              ? `<ul>${card.lines.map(x => `<li>${x}</li>`).join("")}</ul>`
+              : `<div class="formula">${card.formula.map(x => `<b>${x[0]}</b><br>${x[1]}`).join("<br><br>")}</div>`
+            }
           </div>
-          ${playButton(item.en)}
+        `).join("")}
+      </div>
+    </div>
+    `
+  );
+}
+
+function renderVocab(start,end,index){
+  const items = DATA.vocab.slice(start,end);
+
+  return pageWrap(
+    bookHeader("Vocabulary"),
+    `
+    <div class="page-body">
+      <div class="body-head">
+        ${sectionTitle(2,`Vocabulary ${index}`)}
+        <p class="sub-title">Listen, point and say. Mỗi trang tối đa 4 từ.</p>
+      </div>
+
+      <div class="vocab-grid">
+        ${items.map(item => `
+          <div class="vocab-card" data-auto-speak="${escapeHtml(item.speak)}">
+            ${imageBox(item.key)}
+            <div>
+              <div class="word">${item.en}</div>
+              <div class="phonetic">${item.phonetic} - ${item.type}</div>
+              <div class="mean">${item.vi}</div>
+            </div>
+            ${playButton(item.speak)}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+    `
+  );
+}
+
+function renderPattern(pattern){
+  if(!pattern) return "";
+  return `
+    <div class="pattern-box" data-auto-speak="${escapeHtml(pattern.map(x => x[0]).join(". "))}">
+      ${pattern.map(x => `
+        <div class="pattern-line">
+          <b>${x[0]}</b><br>
+          ${x[1]}
         </div>
       `).join("")}
     </div>
   `;
 }
 
-function sentencePage1(){
-  const items = [
-    { en:"What’s your name?", speak:"What's your name?", vi:"Bạn tên là gì?", pic:"whats-your-name" },
-    { en:"My name’s Nam.", speak:"My name's Nam.", vi:"Tên tôi là Nam.", pic:"my-name-nam" },
-    { en:"My name’s Mary.", speak:"My name's Mary.", vi:"Tên tôi là Mary.", pic:"my-name-mary" },
-    { en:"How old are you?", speak:"How old are you?", vi:"Bạn bao nhiêu tuổi?", pic:"how-old-are-you" }
-  ];
+function renderActivity(page){
+  const act = page.activity;
 
-  return `
-    <h2 class="page-title">Sentence Patterns 1 - Name</h2>
-    <div class="sentence-layout">
-      <div class="pattern-box" data-auto-speak="What's your name? My name's Nam. My name's Mary. How old are you?">
-        <b>Mẫu câu:</b><br><br>
+  if(act.song){
+    return pageWrap(
+      bookHeader(page.lesson),
+      `
+      <div class="page-body">
+        <div class="body-head">${sectionTitle(act.num,act.title)}</div>
 
-        <b>What’s your name?</b><br>
-        Bạn tên là gì?<br><br>
-
-        <b>My name’s ...</b><br>
-        Tên tôi là ...<br><br>
-
-        <b>How old are you?</b><br>
-        Bạn bao nhiêu tuổi?
+        <div class="activity-layout">
+          <div class="song-box" data-auto-speak="${escapeHtml(act.speak)}">${act.song}</div>
+          <div class="book-pic" data-auto-speak="${escapeHtml(act.speak)}">
+            <img src="${img(act.img)}" alt="">
+          </div>
+        </div>
       </div>
+      `
+    );
+  }
 
-      <div class="sentence-list">
-        ${items.map(item => `
-          <div class="sentence-card" data-auto-speak="${escapeHtml(item.speak)}">
-            ${imageBox(item.pic,"mini-pic")}
-            <div>
-              <div class="sentence-en">${item.en}</div>
-              <div class="sentence-vi">${item.vi}</div>
+  return pageWrap(
+    bookHeader(page.lesson),
+    `
+    <div class="page-body">
+      <div class="body-head">${sectionTitle(act.num,act.title)}</div>
+
+      <div class="activity-layout">
+        ${renderPattern(act.pattern)}
+
+        <div class="activity-cards">
+          ${act.cards.map(card => `
+            <div class="activity-card" data-auto-speak="${escapeHtml(card.speak || card.en)}">
+              ${imageBox(card.img,"mini-pic")}
+              <div>
+                <div class="sentence-en">${card.en}</div>
+                <div class="sentence-vi">${card.vi || ""}</div>
+              </div>
+              ${playButton(card.speak || card.en)}
             </div>
-            ${playButton(item.speak)}
+          `).join("")}
+        </div>
+      </div>
+    </div>
+    `
+  );
+}
+
+function renderQuiz(){
+  return pageWrap(
+    bookHeader("Mini Game"),
+    `
+    <div class="page-body">
+      <div class="body-head">${sectionTitle(12,"Mini Game - Tổng ôn")}</div>
+
+      <div class="quiz-layout">
+        ${DATA.quiz.map((q,i) => `
+          <div class="quiz-card" data-auto-speak="${escapeHtml(q.speak)}">
+            ${imageBox(q.img,"pic-box")}
+            <div>
+              <div class="quiz-title">Câu ${i+1}</div>
+              <div class="quiz-text">${q.q}</div>
+              ${playButton(q.speak)}
+              <button class="orange-btn" data-answer="answer${i}">Đáp án</button>
+              <div class="answer" id="answer${i}">${q.answer}</div>
+            </div>
           </div>
         `).join("")}
       </div>
     </div>
-  `;
+    `
+  );
 }
 
-function sentencePage2(){
-  const items = [
-    { en:"I’m nine years old.", speak:"I'm nine years old.", vi:"Tôi chín tuổi.", pic:"im-nine-years-old" },
-    { en:"I’m eight years old.", speak:"I'm eight years old.", vi:"Tôi tám tuổi.", pic:"im-eight-years-old" },
-    { en:"How are you?", speak:"How are you?", vi:"Bạn khỏe không?", pic:"how-are-you" },
-    { en:"I’m fine, thank you.", speak:"I'm fine, thank you.", vi:"Tôi khỏe, cảm ơn bạn.", pic:"im-fine-thank-you" }
+function buildPages(){
+  const result = [
+    {type:"cover"},
+    {type:"focus"}
   ];
 
-  return `
-    <h2 class="page-title">Sentence Patterns 2 - Age and Health</h2>
-    <div class="sentence-layout">
-      <div class="pattern-box" data-auto-speak="I'm nine years old. I'm eight years old. How are you? I'm fine, thank you.">
-        <b>Mẫu câu:</b><br><br>
+  for(let i=0;i<DATA.vocab.length;i+=4){
+    result.push({type:"vocab", start:i, end:i+4, index:Math.floor(i/4)+1});
+  }
 
-        <b>I’m ... years old.</b><br>
-        Tôi ... tuổi.<br><br>
+  DATA.lessons.forEach(lesson => {
+    lesson.activities.forEach(activity => {
+      result.push({
+        type:"activity",
+        lesson:lesson.label,
+        activity
+      });
+    });
+  });
 
-        <b>How are you?</b><br>
-        Bạn khỏe không?<br><br>
-
-        <b>I’m fine, thank you.</b><br>
-        Tôi khỏe, cảm ơn bạn.
-      </div>
-
-      <div class="sentence-list">
-        ${items.map(item => `
-          <div class="sentence-card" data-auto-speak="${escapeHtml(item.speak)}">
-            ${imageBox(item.pic,"mini-pic")}
-            <div>
-              <div class="sentence-en">${item.en}</div>
-              <div class="sentence-vi">${item.vi}</div>
-            </div>
-            ${playButton(item.speak)}
-          </div>
-        `).join("")}
-      </div>
-    </div>
-  `;
+  result.push({type:"quiz"});
+  return result;
 }
 
-function phonicsPage(){
-  return `
-    <h2 class="page-title">Phonics - Âm /eɪ/ và /aɪ/</h2>
-    <div class="phonics-layout">
-      <div class="phonic-card">
-        <div class="sound-symbol">/eɪ/</div>
-        <div class="phonic-desc">
-          Âm /eɪ/: âm đôi, thường nghe trong từ <b>name</b>.
-        </div>
-
-        <div class="phonic-examples">
-          <div class="phonic-row" data-auto-speak="name">
-            ${imageBox("name","mini-pic")}
-            <div class="sentence-en">name</div>
-            ${playButton("name")}
-          </div>
-
-          <div class="phonic-row" data-auto-speak="My name is Nam.">
-            ${imageBox("my-name-nam","mini-pic")}
-            <div>
-              <div class="sentence-en">My name is Nam.</div>
-              <div class="sentence-vi">Tên tôi là Nam.</div>
-            </div>
-            ${playButton("My name is Nam.")}
-          </div>
-        </div>
-      </div>
-
-      <div class="phonic-card">
-        <div class="sound-symbol">/aɪ/</div>
-        <div class="phonic-desc">
-          Âm /aɪ/: âm đôi, thường gặp trong từ <b>my</b> và <b>I</b>.
-        </div>
-
-        <div class="phonic-examples">
-          <div class="phonic-row" data-auto-speak="my">
-            ${imageBox("my","mini-pic")}
-            <div class="sentence-en">my</div>
-            ${playButton("my")}
-          </div>
-
-          <div class="phonic-row" data-auto-speak="I">
-            ${imageBox("i","mini-pic")}
-            <div class="sentence-en">I</div>
-            ${playButton("I")}
-          </div>
-
-          <div class="phonic-row" data-auto-speak="I am eight years old.">
-            ${imageBox("im-eight-years-old","mini-pic")}
-            <div>
-              <div class="sentence-en">I am eight years old.</div>
-              <div class="sentence-vi">Tôi tám tuổi.</div>
-            </div>
-            ${playButton("I am eight years old.")}
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function quizPage(){
-  return `
-    <h2 class="page-title">Mini Game - Nghe và trả lời</h2>
-    <div class="quiz-layout">
-      <div class="quiz-card" data-auto-speak="What's your name?">
-        ${imageBox("whats-your-name","pic-box")}
-        <div>
-          <div class="quiz-title">Câu 1</div>
-          <div class="quiz-text">Nghe và trả lời:</div>
-          ${playButton("What's your name?")}
-          <button class="orange-btn" data-answer="answer1">Đáp án</button>
-          <div class="answer" id="answer1">My name’s Nam.</div>
-        </div>
-      </div>
-
-      <div class="quiz-card" data-auto-speak="How old are you?">
-        ${imageBox("how-old-are-you","pic-box")}
-        <div>
-          <div class="quiz-title">Câu 2</div>
-          <div class="quiz-text">Nghe và trả lời:</div>
-          ${playButton("How old are you?")}
-          <button class="orange-btn" data-answer="answer2">Đáp án</button>
-          <div class="answer" id="answer2">I’m eight years old.</div>
-        </div>
-      </div>
-
-      <div class="quiz-card" data-auto-speak="How are you?">
-        ${imageBox("how-are-you","pic-box")}
-        <div>
-          <div class="quiz-title">Câu 3</div>
-          <div class="quiz-text">Nghe và trả lời:</div>
-          ${playButton("How are you?")}
-          <button class="orange-btn" data-answer="answer3">Đáp án</button>
-          <div class="answer" id="answer3">I’m fine, thank you.</div>
-        </div>
-      </div>
-
-      <div class="quiz-card" data-auto-speak="My name's Mary.">
-        ${imageBox("my-name-mary","pic-box")}
-        <div>
-          <div class="quiz-title">Câu 4</div>
-          <div class="quiz-text">Nghe và đọc lại:</div>
-          ${playButton("My name's Mary.")}
-          <button class="orange-btn" data-answer="answer4">Hiện câu</button>
-          <div class="answer" id="answer4">My name’s Mary.</div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-const pages = [
-  coverPage,
-  focusPage,
-  () => vocabPage(0,4,"Vocabulary 1 - Từ vựng phần 1"),
-  () => vocabPage(4,8,"Vocabulary 2 - Từ vựng phần 2"),
-  sentencePage1,
-  sentencePage2,
-  phonicsPage,
-  quizPage
-];
-
-function fitPage(){
-  const vw = pageViewport.clientWidth;
-  const vh = pageViewport.clientHeight;
-  const cw = pageFit.offsetWidth;
-  const ch = pageFit.offsetHeight;
-  const scale = Math.min(vw / cw, vh / ch);
-  pageFit.style.transform = `translate(-50%, -50%) scale(${scale})`;
-}
+const pages = buildPages();
 
 function renderPage(shouldStop=true){
   if(shouldStop) stopReading();
 
-  pageContent.innerHTML = pages[currentPage]();
+  const page = pages[currentPage];
 
-  pageFit.classList.remove("flip");
-  void pageFit.offsetWidth;
-  pageFit.classList.add("flip");
+  if(page.type === "cover") pageContent.innerHTML = renderCover();
+  if(page.type === "focus") pageContent.innerHTML = renderFocus();
+  if(page.type === "vocab") pageContent.innerHTML = renderVocab(page.start,page.end,page.index);
+  if(page.type === "activity") pageContent.innerHTML = renderActivity(page);
+  if(page.type === "quiz") pageContent.innerHTML = renderQuiz();
 
   pageCount.textContent = `Trang ${currentPage + 1} / ${pages.length}`;
   prevBtn.disabled = currentPage === 0;
@@ -947,19 +1242,16 @@ function renderPage(shouldStop=true){
 
   bindPageButtons();
   handleImages();
-  fitPage();
 }
 
 function handleImages(){
-  pageContent.querySelectorAll("img").forEach(img => {
-    img.addEventListener("load", fitPage, { once:true });
-    img.addEventListener("error", () => {
-      const src = img.getAttribute("src");
-      const box = img.parentElement;
+  pageContent.querySelectorAll("img").forEach(imgEl => {
+    imgEl.addEventListener("error", () => {
+      const src = imgEl.getAttribute("src");
+      const box = imgEl.parentElement;
       if(box){
         box.innerHTML = `<div class="missing-img">Thiếu ảnh:<br>${src}</div>`;
       }
-      fitPage();
     }, { once:true });
   });
 }
@@ -976,7 +1268,6 @@ function bindPageButtons(){
       const answer = document.getElementById(btn.dataset.answer);
       if(answer){
         answer.style.display = answer.style.display === "block" ? "none" : "block";
-        fitPage();
       }
     });
   });
@@ -1017,7 +1308,7 @@ function speakAsync(text, el, token){
 
     utterance.onend = () => {
       if(el) el.classList.remove("active-card");
-      setTimeout(resolve,260);
+      setTimeout(resolve,220);
     };
 
     utterance.onerror = () => {
@@ -1031,7 +1322,6 @@ function speakAsync(text, el, token){
 
 function createUtterance(text){
   const utterance = new SpeechSynthesisUtterance(text);
-
   const voiceSelect = document.getElementById("voiceSelect");
   const rateSelect = document.getElementById("rateSelect");
   const selectedVoice = voices[voiceSelect.value];
@@ -1078,7 +1368,7 @@ async function autoReadFromCurrentPage(){
     if(currentPage < pages.length - 1){
       currentPage++;
       renderPage(false);
-      await new Promise(resolve => setTimeout(resolve,500));
+      await new Promise(resolve => setTimeout(resolve,450));
     }else{
       break;
     }
@@ -1117,11 +1407,7 @@ document.getElementById("fullBtn").addEventListener("click", async () => {
   }else{
     await document.exitFullscreen();
   }
-  setTimeout(fitPage,200);
 });
-
-window.addEventListener("resize", fitPage);
-document.addEventListener("fullscreenchange", () => setTimeout(fitPage,200));
 
 function loadVoices(){
   voices = speechSynthesis.getVoices();
